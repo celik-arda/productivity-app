@@ -1,0 +1,31 @@
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
+
+section {
+    height: 480px;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 30% 15% 15% 15%;
+}
+
+.counter-area, .select-time-area, .button-1-area, .button-2-area {
+    box-sizing: border-box;
+    border: 2px dashed orange;
+}
+.counter-area span {
+    font-size: 60px;
+}
+
+.select-time-area input {
+    width: 15%;
+    text-align: center;
+    font-size: 32px;
+}
+
+button {
+    line-height: 2rem;
+    padding: 0 1rem;
+}
