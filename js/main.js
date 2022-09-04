@@ -1,18 +1,19 @@
-const counterMinute = document.getElementById("counterMinute");
-const counterSecond = document.getElementById("counterSecond");
+let counterMinute = document.getElementById("counterMinute");
+let counterSecond = document.getElementById("counterSecond");
 
 const selectedMinute = document.getElementById("selectedMinute");
 const selectedSecond = document.getElementById("selectedSecond");
 
 const timeSelectorForm = document.getElementById("timeSelectorForm");
 
-const playPauseButton = document.getElementById("playPauseButton");
+const adjusterButton = document.getElementById("adjusterButton");
 
-console.log(timeSelectorForm);
+// Start or Break buttton
+const startButton = document.getElementById("startButton");
 
-let checkTheSelectorDisplay = () => {
 
-    // if()
+// prevent the increase in second after "60"
+let transformSelectorforEachMinute = () => {
 
     if(selectedSecond.value === "60") {
 
@@ -34,6 +35,39 @@ let getSelectedTimeData = () => {
     counterMinute.textContent = minuteValue;
 }
 
-playPauseButton.addEventListener("click",getSelectedTimeData);
+let startOrStopTimer = () => {
 
-timeSelectorForm.addEventListener("change", checkTheSelectorDisplay);
+    // firstly, convert counter to number type for handling easily
+    let minuteNumber = Number(counterMinute.textContent);
+    let secondNumber = Number(counterSecond.textContent);
+
+    let countTheTimerDown = setInterval(() => {
+
+        secondNumber --;
+        
+        if(secondNumber == 0 && minuteNumber == 0){
+            clearInterval(countTheTimerDown);
+        }
+        else if(secondNumber < 0){
+            secondNumber = 59;
+            minuteNumber --;
+        }
+
+        counterMinute.textContent = minuteNumber.toString();
+        counterSecond.textContent = secondNumber.toString();
+        
+    },1000);
+
+
+
+}
+
+const allEvents = () => {
+    
+    adjusterButton.addEventListener("click", getSelectedTimeData);
+    
+    timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
+
+    startButton.addEventListener("click", startOrStopTimer);
+}
+allEvents();
