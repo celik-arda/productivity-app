@@ -15,14 +15,23 @@ const startButton = document.getElementById("startButton");
 // prevent the increase in second after "60"
 let transformSelectorforEachMinute = () => {
 
-    if(selectedSecond.value === "60") {
+    // turn single digit numbers into two digits
+    // ... SONRA EKLENECEK !!! ... //
+
+    if(selectedSecond.value === "58") {
 
         selectedSecond.value = 0;
         let minuteDisplay = Number(selectedMinute.value) + 1;
-        console.log(minuteDisplay, typeof minuteDisplay);
+
+
         selectedMinute.value = minuteDisplay.toString();
     }
 }
+
+
+
+
+
 
 let getSelectedTimeData = () => {
 
@@ -35,32 +44,56 @@ let getSelectedTimeData = () => {
     counterMinute.textContent = minuteValue;
 }
 
-let startOrStopTimer = () => {
 
-    // firstly, convert counter to number type for handling easily
+/*  NOTE :  
+The variable has been defined in global scope consciously. It is some risky, but practical to access and stop interval process from everywhere.    */
+
+var countDownInterval;  // Interval Function Variable//
+
+const countTheTimerDown = () => {
+
+    // turn strings into number for easier changes
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
-    let countTheTimerDown = setInterval(() => {
+    secondNumber --;
 
-        secondNumber --;
-        
-        if(secondNumber == 0 && minuteNumber == 0){
-            clearInterval(countTheTimerDown);
-        }
-        else if(secondNumber < 0){
-            secondNumber = 59;
-            minuteNumber --;
-        }
+    if(secondNumber < 0){
 
-        counterMinute.textContent = minuteNumber.toString();
-        counterSecond.textContent = secondNumber.toString();
-        
-    },1000);
+        secondNumber = 59;
+        minuteNumber --;
+    }
+    console.log("countTheTimer içinden yazdırıyorum : ",minuteNumber,secondNumber);
 
-
-
+    // turn them into string for textContent
+    counterMinute.textContent = minuteNumber.toString();
+    counterSecond.textContent = secondNumber.toString();
 }
+
+// this 'll display that timer situation right now
+let timerIsRunningNow = false;
+
+
+const mainTimerMekanism = () => {
+
+    // check the timer : is running or not.
+    if(timerIsRunningNow === false){
+
+        // start the timer
+        countDownInterval = setInterval(countTheTimerDown,1000);
+
+        timerIsRunningNow = true;
+        console.log("if çalışıyor.. ",timerIsRunningNow);
+    }
+    else{   // pause the timer//
+        clearInterval(countDownInterval);
+        timerIsRunningNow = false;
+        console.log("else...  ",timerIsRunningNow);
+    }
+}
+
+
+
 
 const allEvents = () => {
     
@@ -68,6 +101,6 @@ const allEvents = () => {
     
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
 
-    startButton.addEventListener("click", startOrStopTimer);
+    startButton.addEventListener("click",mainTimerMekanism);
 }
 allEvents();
