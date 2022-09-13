@@ -2,16 +2,16 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-section {
+section#Timer-section {
     height: 480px;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
     text-align: center;
     display: grid;
-    grid-template-rows: 30% 15% 15% 15%;
+    grid-template-rows: 30% 15% 15% 15% 15%;
 }
 
-.counter-area, .select-time-area, .button-1-area, .button-2-area {
+.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area {
     box-sizing: border-box;
     border: 2px dashed orange;
 }
