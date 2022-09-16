@@ -8,8 +8,11 @@ const timeSelectorForm = document.getElementById("timeSelectorForm");
 
 const adjusterButton = document.getElementById("adjusterButton");
 
-// Start or Break buttton
+// Start or Break button
 const startButton = document.getElementById("startButton");
+
+// Clear Button (reset the timer numbers)
+const resetTimerButton = document.getElementById("clearButton");
 
 
 // prevent the increase in second after "60"
@@ -27,10 +30,6 @@ let transformSelectorforEachMinute = () => {
         selectedMinute.value = minuteDisplay.toString();
     }
 }
-
-
-
-
 
 
 let getSelectedTimeData = () => {
@@ -63,7 +62,6 @@ const countTheTimerDown = () => {
         secondNumber = 59;
         minuteNumber --;
     }
-    console.log("countTheTimer içinden yazdırıyorum : ",minuteNumber,secondNumber);
 
     // turn them into string for textContent
     counterMinute.textContent = minuteNumber.toString();
@@ -83,24 +81,30 @@ const mainTimerMekanism = () => {
         countDownInterval = setInterval(countTheTimerDown,1000);
 
         timerIsRunningNow = true;
-        console.log("if çalışıyor.. ",timerIsRunningNow);
     }
     else{   // pause the timer//
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
-        console.log("else...  ",timerIsRunningNow);
     }
 }
 
+const resetTheTimer = () => {
 
+    // firstly, check the Timer already is running or not
+    if(timerIsRunningNow === true){
+        clearInterval(countDownInterval);
+    }
 
+    counterMinute.textContent = 0;
+    counterSecond.textContent = 0;
+
+}
 
 const allEvents = () => {
     
     adjusterButton.addEventListener("click", getSelectedTimeData);
-    
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
-
     startButton.addEventListener("click",mainTimerMekanism);
+    resetTimerButton.addEventListener("click",resetTheTimer);
 }
 allEvents();
