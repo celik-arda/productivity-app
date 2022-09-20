@@ -1,3 +1,5 @@
+import Category from "./category.js";
+
 let counterMinute = document.getElementById("counterMinute");
 let counterSecond = document.getElementById("counterSecond");
 
@@ -13,6 +15,12 @@ const startButton = document.getElementById("startButton");
 
 // Clear Button (reset the timer numbers)
 const resetTimerButton = document.getElementById("clearButton");
+
+// Category Input to add new object
+addCategoryInput = document.getElementById("addCategoryInput");
+
+// Button to Add New Category
+addCategoryButton = document.getElementById("addCategoryButton");
 
 
 // prevent the increase in second after "60"
@@ -100,11 +108,20 @@ const resetTheTimer = () => {
 
 }
 
+const createNewCategory = () => {
+
+    const timeName = addCategoryInput.value;
+
+    const newCategory = new Category(timeName,0,0);
+    console.log(newCategory);
+}
+
 const allEvents = () => {
     
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
     resetTimerButton.addEventListener("click",resetTheTimer);
+    addCategoryButton.addEventListener("click",createNewCategory);
 }
 allEvents();
