@@ -51,3 +51,14 @@ button {
     width: 50%;
     margin: auto;
 }
+
+.info-message-area #info-message{
+    display: flex;
+    width: 70%;
+    height: 32px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;;
+}
