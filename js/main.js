@@ -17,10 +17,11 @@ const startButton = document.getElementById("startButton");
 const resetTimerButton = document.getElementById("clearButton");
 
 // Category Input to add new object
-addCategoryInput = document.getElementById("addCategoryInput");
+const addCategoryInput = document.getElementById("addCategoryInput");
 
 // Button to Add New Category
-addCategoryButton = document.getElementById("addCategoryButton");
+const addCategoryButton = document.getElementById("addCategoryButton");
+
 
 
 // prevent the increase in second after "60"
@@ -108,12 +109,57 @@ const resetTheTimer = () => {
 
 }
 
+const loadDatasToStorage = (localDatas) => {
+
+    localStorage.setItem("category",JSON.stringify(localDatas));
+}
+
+const getDatasFromStorage = () => {
+
+    let localDatas;
+
+    let checkedDatas = localStorage.getItem("category");
+
+    // If local storage is empty //
+    if(checkedDatas === null){
+        localDatas = [];
+    }
+    else{
+        localDatas = JSON.parse(checkedDatas);
+    }
+
+    return localDatas;
+}
+
+// Main Object Creater Function //
 const createNewCategory = () => {
 
-    const timeName = addCategoryInput.value;
+    // 1- oluşturacağın kategori var mı kontrol et
+    const newCategoryName = addCategoryInput.value;
 
-    const newCategory = new Category(timeName,0,0);
-    console.log(newCategory);
+    let localDatas = getDatasFromStorage();
+
+    // check the new category. Does it already exist or not ?// 
+    const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
+
+    if(categoryExist === undefined){
+
+        const newCategoryObject = new Category(newCategoryName,0,0);
+        localDatas.push(newCategoryObject);
+        loadDatasToStorage(localDatas);
+    }
+    else{
+        console.log("bu kategori zaten var...");
+    }
+    
+
+    
+
+    // 2- eğer yoksa yeni objeyi yarat
+
+    // 3- bunu local storage'a yolla 
+
+    // 4- en sonda bunu hem form içinde option olarak oluştur hem de alttaki listede oluştur
 }
 
 const allEvents = () => {
