@@ -114,6 +114,31 @@ const loadDatasToStorage = (localDatas) => {
     localStorage.setItem("category",JSON.stringify(localDatas));
 }
 
+// Info messages for "successful" or "error" //
+const displayInfoMessage = (infoType,message) => {
+
+    const messageLocation = document.getElementsByClassName("info-message-area")[0];
+    console.log(messageLocation);
+
+    let messageElement = document.createElement("div");
+
+    messageElement.id = "info-message";
+    messageElement.textContent = message;
+    messageElement.style.boxSizing = "border-box";
+    messageElement.style.borderStyle = "solid";
+    messageElement.style.borderWidth = "4px";
+    messageElement.style.borderRadius = "6px";
+    messageElement.style.background = "#FFEA4C";
+
+    messageLocation.appendChild(messageElement);
+
+    // Select the color in terms of type : error or success //
+    if(infoType === "error"){
+        messageElement.style.color = "darkred";
+
+    }
+}
+
 const getDatasFromStorage = () => {
 
     let localDatas;
@@ -150,16 +175,8 @@ const createNewCategory = () => {
     }
     else{
         console.log("bu kategori zaten var...");
+        displayInfoMessage("error", "Bu kategori zaten mevcut !");
     }
-    
-
-    
-
-    // 2- eğer yoksa yeni objeyi yarat
-
-    // 3- bunu local storage'a yolla 
-
-    // 4- en sonda bunu hem form içinde option olarak oluştur hem de alttaki listede oluştur
 }
 
 const allEvents = () => {
