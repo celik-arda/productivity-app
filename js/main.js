@@ -118,7 +118,6 @@ const loadDatasToStorage = (localDatas) => {
 const displayInfoMessage = (infoType,message) => {
 
     const messageLocation = document.getElementsByClassName("info-message-area")[0];
-    console.log(messageLocation);
 
     let messageElement = document.createElement("div");
 
@@ -128,14 +127,17 @@ const displayInfoMessage = (infoType,message) => {
     messageElement.style.borderStyle = "solid";
     messageElement.style.borderWidth = "4px";
     messageElement.style.borderRadius = "6px";
-    messageElement.style.background = "#FFEA4C";
-
+    
     messageLocation.appendChild(messageElement);
-
+    
     // Select the color in terms of type : error or success //
     if(infoType === "error"){
         messageElement.style.color = "darkred";
-
+        messageElement.style.background = "#FFEA4C";
+    }
+    else if(infoType === "success"){
+        messageElement.style.color = "green";
+        messageElement.style.background = "yellowgreen";
     }
 }
 
@@ -159,7 +161,6 @@ const getDatasFromStorage = () => {
 // Main Object Creater Function //
 const createNewCategory = () => {
 
-    // 1- oluşturacağın kategori var mı kontrol et
     const newCategoryName = addCategoryInput.value;
 
     let localDatas = getDatasFromStorage();
@@ -172,6 +173,7 @@ const createNewCategory = () => {
         const newCategoryObject = new Category(newCategoryName,0,0);
         localDatas.push(newCategoryObject);
         loadDatasToStorage(localDatas);
+        displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
         console.log("bu kategori zaten var...");
