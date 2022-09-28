@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 section#Timer-section {
-    height: 480px;
+    height: 360px;
     width: 70%;
     margin: 0 auto;
     text-align: center;
@@ -11,9 +11,9 @@ section#Timer-section {
     grid-template-rows: 30% 15% 15% 15% 15%;
 }
 
-.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area {
+.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area, .new-category-container{
     box-sizing: border-box;
-    border: 2px dashed orange;
+    border: 1px dashed red;
 }
 .counter-area span {
     font-size: 60px;
@@ -29,4 +29,36 @@ section#Timer-section {
 button {
     line-height: 2rem;
     padding: 0 1rem;
+}
+
+#newCategorySection{
+    width: 70%;
+    height: 60px;
+    margin: 0 auto;
+}
+
+#newCategorySection .new-category-container {
+    width: 75%;
+    height: 80px;
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 30% 30%;
+    row-gap: 0.5rem;
+}
+
+#newCategorySection button {
+    width: 50%;
+    margin: auto;
+}
+
+.info-message-area #info-message{
+    display: flex;
+    width: 70%;
+    height: 32px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;;
 }

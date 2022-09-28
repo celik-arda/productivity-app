@@ -17,6 +17,7 @@
         <h1>COUNTER</h1>
     </header>
 
+
     <!-- (start) TIMER AREA -->
     <section id="Timer-section">
         
@@ -34,8 +35,17 @@
 
         <div class="select-time-area">
             <form id="timeSelectorForm">
-                <input class="selectorInput" id="selectedMinute" type="number" max="" value="2">
-                <input class="selectorInput" id="selectedSecond" type="number" max="60" value="5">
+                <input class="selectorInput" id="selectedMinute" type="number" max="" value="0">
+                <input class="selectorInput" id="selectedSecond" type="number" max="60" value="0">
+            </form>
+        </div>
+
+        <div class="select-category-area">
+            <form>
+                <select name="categoryOptions" id="categoryOptions">
+                    <option selected id="defaultOption" class="defaultOption" value="">Bir kategori seç</option>
+                    <!-- option tags of the categories here -->
+                </select>
             </form>
         </div>
 
@@ -54,16 +64,36 @@
     </section>
     <!-- (end)  TIMER AREA -->
 
+    <!-- (start) DISPLAYING INFORMATION MESSAGE AREA -->
+    <section class="info-message-section">
+        <div class="info-message-area">
+            <!-- Information messages here -->
+        </div>
+    </section>
+    <!-- (end) DISPLAYING INFORMATION MESSAGE AREA -->
+
+
+    <!-- (start)  NEW CATEGORY AREA -->
+    <section id="newCategorySection">
+        <div class="new-category-container">
+            <input id="addCategoryInput" type="text">
+            <button id="addCategoryButton">Ekle</button>
+        </div>
+    </section>
+    <!-- (end)  NEW CATEGORY AREA -->
+
 
     <!-- (start)  CATEGORY LIST AREA -->
     <section id="list-section">
         <ul>
-            <!-- Listing the Categories -->
+            <!-- Listing the Categories Here -->
         </ul>
     </section>
     <!-- (end)  CATEGORY AREA -->
 
 
-<script src="./js/main.js"></script>
+    <br><br><br><br><br>
+
+<script type="module" src="./js/main.js"></script>
 </body>
 </html>

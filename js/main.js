@@ -1,3 +1,5 @@
+import Category from "./category.js";
+
 let counterMinute = document.getElementById("counterMinute");
 let counterSecond = document.getElementById("counterSecond");
 
@@ -13,6 +15,13 @@ const startButton = document.getElementById("startButton");
 
 // Clear Button (reset the timer numbers)
 const resetTimerButton = document.getElementById("clearButton");
+
+// Category Input to add new object
+const addCategoryInput = document.getElementById("addCategoryInput");
+
+// Button to Add New Category
+const addCategoryButton = document.getElementById("addCategoryButton");
+
 
 
 // prevent the increase in second after "60"
@@ -100,11 +109,106 @@ const resetTheTimer = () => {
 
 }
 
+const loadDatasToStorage = (localDatas) => {
+
+    localStorage.setItem("category",JSON.stringify(localDatas));
+}
+
+// Info messages for "successful" or "error" //
+const displayInfoMessage = (infoType,message) => {
+
+    const messageLocation = document.getElementsByClassName("info-message-area")[0];
+
+    let messageElement = document.createElement("div");
+
+    messageElement.id = "info-message";
+    messageElement.textContent = message;
+    messageElement.style.boxSizing = "border-box";
+    messageElement.style.borderStyle = "solid";
+    messageElement.style.borderWidth = "4px";
+    messageElement.style.borderRadius = "6px";
+    
+    messageLocation.appendChild(messageElement);
+    
+    // Select the color in terms of type : error or success //
+    if(infoType === "error"){
+        messageElement.style.color = "darkred";
+        messageElement.style.background = "#FFEA4C";
+    }
+    else if(infoType === "success"){
+        messageElement.style.color = "green";
+        messageElement.style.background = "yellowgreen";
+    }
+}
+
+// display categories on form element to select
+const displayCategoriesOnForm = (localDatas) => {
+
+    // select the form > select > options
+    const categoryOptionsArea = document.getElementById("categoryOptions");
+ 
+    console.log(localDatas);
+
+
+    localDatas.forEach(e => {
+
+        categoryOptionsArea.innerHTML +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
+
+    });
+}
+
+const getDatasFromStorage = () => {
+
+    let localDatas;
+
+    let checkedDatas = localStorage.getItem("category");
+
+    // If local storage is empty //
+    if(checkedDatas === null){
+        localDatas = [];
+    }
+    else{
+        localDatas = JSON.parse(checkedDatas);
+    }
+
+    return localDatas;
+}
+
+// Main Object Creator Function //
+const createNewCategory = () => {
+
+    const newCategoryName = addCategoryInput.value;
+
+    let localDatas = getDatasFromStorage();
+
+    // check the new category. Does it already exist or not ?// 
+    const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
+
+    if(categoryExist === undefined){
+
+        const newCategoryObject = new Category(newCategoryName,0,0);
+        localDatas.push(newCategoryObject);
+        loadDatasToStorage(localDatas);
+        displayCategoriesOnForm(localDatas);
+        displayInfoMessage("success","Yeni bir kategori ekledin");
+    }
+    else{
+        console.log("bu kategori zaten var...");
+        displayInfoMessage("error", "Bu kategori zaten mevcut !");
+    }
+}
+
 const allEvents = () => {
     
+    document.addEventListener("DOMContentLoaded",() => {
+
+        let localDatas = getDatasFromStorage();
+        displayCategoriesOnForm(localDatas);
+    });
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
     resetTimerButton.addEventListener("click",resetTheTimer);
+    addCategoryButton.addEventListener("click",createNewCategory);
 }
 allEvents();
