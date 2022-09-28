@@ -141,6 +141,22 @@ const displayInfoMessage = (infoType,message) => {
     }
 }
 
+// display categories on form element to select
+const displayCategoriesOnForm = (localDatas) => {
+
+    // select the form > select > options
+    const categoryOptionsArea = document.getElementById("categoryOptions");
+ 
+    console.log(localDatas);
+
+
+    localDatas.forEach(e => {
+
+        categoryOptionsArea.innerHTML +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
+
+    });
+}
+
 const getDatasFromStorage = () => {
 
     let localDatas;
@@ -158,7 +174,7 @@ const getDatasFromStorage = () => {
     return localDatas;
 }
 
-// Main Object Creater Function //
+// Main Object Creator Function //
 const createNewCategory = () => {
 
     const newCategoryName = addCategoryInput.value;
@@ -173,6 +189,7 @@ const createNewCategory = () => {
         const newCategoryObject = new Category(newCategoryName,0,0);
         localDatas.push(newCategoryObject);
         loadDatasToStorage(localDatas);
+        displayCategoriesOnForm(localDatas);
         displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
@@ -183,6 +200,11 @@ const createNewCategory = () => {
 
 const allEvents = () => {
     
+    document.addEventListener("DOMContentLoaded",() => {
+
+        let localDatas = getDatasFromStorage();
+        displayCategoriesOnForm(localDatas);
+    });
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
