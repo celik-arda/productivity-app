@@ -40,9 +40,24 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
+/*
+Coming soon, I will use this function to save the time datas
+BİR SONRAKİ ADIMDA CATEGORİYE AİT SÜRELERİ KAYDETMEK İÇİN BU FONKSİYONU KULLANACAĞIM. ŞİMDİLİK SADECE TEMSİLİ...  */
+const saveTheCategoryTimeData = () => {
+    console.log();
+}
+
+const checkTheCurrentCategory = () => {
+    
+    const abc = document.getElementsByTagName("option")[2];
+
+    if(abc.selected){
+        console.log("çalıştı");
+    }
+}
 
 let getSelectedTimeData = () => {
-
+    
     // values in the time selector inputs //
     let minuteValue = selectedMinute.value;
     let secondValue = selectedSecond.value;
@@ -50,6 +65,8 @@ let getSelectedTimeData = () => {
     // equalize selected time and counter time //
     counterSecond.textContent = secondValue;
     counterMinute.textContent = minuteValue;
+
+    checkTheCurrentCategory();
 }
 
 
@@ -146,14 +163,9 @@ const displayCategoriesOnForm = (localDatas) => {
 
     // select the form > select > options
     const categoryOptionsArea = document.getElementById("categoryOptions");
- 
-    console.log(localDatas);
-
 
     localDatas.forEach(e => {
-
         categoryOptionsArea.innerHTML +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
-
     });
 }
 
