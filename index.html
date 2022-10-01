@@ -43,8 +43,9 @@
         <div class="select-category-area">
             <form>
                 <select name="categoryOptions" id="categoryOptions">
-                    <option selected id="defaultOption" class="defaultOption" value="">Bir kategori seç</option>
-                    <!-- option tags of the categories here -->
+                    <optgroup label="Bir kategori seç" class="category-option-group" id="categoryOptionGroup">
+                        <!-- option tags of the categories here -->
+                    </optgroup>
                 </select>
             </form>
         </div>
@@ -85,9 +86,7 @@
 
     <!-- (start)  CATEGORY LIST AREA -->
     <section id="list-section">
-        <ul>
-            <!-- Listing the Categories Here -->
-        </ul>
+        <ul class="list-area"></ul>
     </section>
     <!-- (end)  CATEGORY AREA -->
 

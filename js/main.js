@@ -44,7 +44,7 @@ let transformSelectorforEachMinute = () => {
 Coming soon, I will use this function to save the time datas
 BİR SONRAKİ ADIMDA CATEGORİYE AİT SÜRELERİ KAYDETMEK İÇİN BU FONKSİYONU KULLANACAĞIM. ŞİMDİLİK SADECE TEMSİLİ...  */
 const saveTheCategoryTimeData = () => {
-    console.log();
+    console.log("deneme");
 }
 
 const checkTheCurrentCategory = () => {
@@ -54,7 +54,9 @@ const checkTheCurrentCategory = () => {
     if(abc.selected){
         console.log("çalıştı");
     }
+    saveTheCategoryTimeData();
 }
+
 
 let getSelectedTimeData = () => {
     
@@ -76,19 +78,19 @@ The variable has been defined in global scope consciously. It is some risky, but
 var countDownInterval;  // Interval Function Variable//
 
 const countTheTimerDown = () => {
-
+    
     // turn strings into number for easier changes
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
     secondNumber --;
-
+    
     if(secondNumber < 0){
 
         secondNumber = 59;
         minuteNumber --;
     }
-
+    
     // turn them into string for textContent
     counterMinute.textContent = minuteNumber.toString();
     counterSecond.textContent = secondNumber.toString();
@@ -105,7 +107,7 @@ const mainTimerMekanism = () => {
 
         // start the timer
         countDownInterval = setInterval(countTheTimerDown,1000);
-
+        
         timerIsRunningNow = true;
     }
     else{   // pause the timer//
@@ -115,19 +117,51 @@ const mainTimerMekanism = () => {
 }
 
 const resetTheTimer = () => {
-
+    
     // firstly, check the Timer already is running or not
     if(timerIsRunningNow === true){
         clearInterval(countDownInterval);
     }
-
+    
     counterMinute.textContent = 0;
     counterSecond.textContent = 0;
+    
+}
 
+// display categories on form element to select
+const displayCategoriesOnForm = (localDatas) => {
+    
+    // select the form > select > options
+    const categoryOptionsArea = document.getElementById("categoryOptionGroup");
+    console.log(categoryOptionsArea);
+    
+    let formCategoryOptions = "";
+
+    localDatas.forEach(e => {
+        formCategoryOptions +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
+    });
+
+    categoryOptionsArea.innerHTML = formCategoryOptions;
+}
+
+const loadCategoryDatasToInterface = (localDatas) => {
+
+    let listArea = document.getElementsByClassName("list-area")[0];
+
+    let categoryListItems = "";
+
+    localDatas.forEach(e => {
+        categoryListItems +=`<li class="category-list-item">
+        <span class="list-category-name">${e.categoryName}</span><span class="list-category-time">${e.totalMinute}</span></li>`;
+    });
+
+    listArea.innerHTML = categoryListItems;
 }
 
 const loadDatasToStorage = (localDatas) => {
 
+    displayCategoriesOnForm(localDatas);
+    loadCategoryDatasToInterface(localDatas);
     localStorage.setItem("category",JSON.stringify(localDatas));
 }
 
@@ -158,16 +192,6 @@ const displayInfoMessage = (infoType,message) => {
     }
 }
 
-// display categories on form element to select
-const displayCategoriesOnForm = (localDatas) => {
-
-    // select the form > select > options
-    const categoryOptionsArea = document.getElementById("categoryOptions");
-
-    localDatas.forEach(e => {
-        categoryOptionsArea.innerHTML +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
-    });
-}
 
 const getDatasFromStorage = () => {
 
@@ -198,11 +222,10 @@ const createNewCategory = () => {
 
     if(categoryExist === undefined){
 
-        const newCategoryObject = new Category(newCategoryName,0,0);
-        localDatas.push(newCategoryObject);
-        loadDatasToStorage(localDatas);
-        displayCategoriesOnForm(localDatas);
-        displayInfoMessage("success","Yeni bir kategori ekledin");
+            const newCategoryObject = new Category(newCategoryName,0,0);
+            localDatas.push(newCategoryObject);
+            loadDatasToStorage(localDatas);
+            displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
         console.log("bu kategori zaten var...");
@@ -210,13 +233,14 @@ const createNewCategory = () => {
     }
 }
 
+
 const allEvents = () => {
     
-    document.addEventListener("DOMContentLoaded",() => {
+    // document.addEventListener("DOMContentLoaded",() => {
 
-        let localDatas = getDatasFromStorage();
-        displayCategoriesOnForm(localDatas);
-    });
+    //     let localDatas = getDatasFromStorage();
+    //     displayCategoriesOnForm(localDatas);
+    // });
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
