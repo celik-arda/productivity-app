@@ -160,8 +160,11 @@ const loadCategoryDatasToInterface = (localDatas) => {
 
 const loadDatasToStorage = (localDatas) => {
 
+    //firstly, load categories to UI (form-area and list-area)
     displayCategoriesOnForm(localDatas);
     loadCategoryDatasToInterface(localDatas);
+
+    // finally, load to LocalStorage
     localStorage.setItem("category",JSON.stringify(localDatas));
 }
 
@@ -236,11 +239,13 @@ const createNewCategory = () => {
 
 const allEvents = () => {
     
-    // document.addEventListener("DOMContentLoaded",() => {
+    document.addEventListener("DOMContentLoaded", (() => {
 
-    //     let localDatas = getDatasFromStorage();
-    //     displayCategoriesOnForm(localDatas);
-    // });
+        let allStorageDatas = getDatasFromStorage();
+
+        displayCategoriesOnForm(allStorageDatas);
+        loadCategoryDatasToInterface(allStorageDatas);
+    }));
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
