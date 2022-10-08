@@ -40,24 +40,6 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
-/*
-Coming soon, I will use this function to save the time datas
-BİR SONRAKİ ADIMDA CATEGORİYE AİT SÜRELERİ KAYDETMEK İÇİN BU FONKSİYONU KULLANACAĞIM. ŞİMDİLİK SADECE TEMSİLİ...  */
-const saveTheCategoryTimeData = () => {
-    console.log("deneme");
-}
-
-const checkTheCurrentCategory = () => {
-    
-    const abc = document.getElementsByTagName("option")[2];
-
-    if(abc.selected){
-        console.log("çalıştı");
-    }
-    saveTheCategoryTimeData();
-}
-
-
 let getSelectedTimeData = () => {
     
     // values in the time selector inputs //
@@ -68,7 +50,6 @@ let getSelectedTimeData = () => {
     counterSecond.textContent = secondValue;
     counterMinute.textContent = minuteValue;
 
-    checkTheCurrentCategory();
 }
 
 
@@ -90,6 +71,12 @@ const countTheTimerDown = () => {
         secondNumber = 59;
         minuteNumber --;
     }
+    else if(minuteNumber === 0 && secondNumber === 0){
+
+        clearInterval(countDownInterval);
+        console.log("else if - 00:00 oldu ve durduruldu");
+    }
+
     
     // turn them into string for textContent
     counterMinute.textContent = minuteNumber.toString();
@@ -98,7 +85,6 @@ const countTheTimerDown = () => {
 
 // this 'll display that timer situation right now
 let timerIsRunningNow = false;
-
 
 const mainTimerMekanism = () => {
 
@@ -133,7 +119,6 @@ const displayCategoriesOnForm = (localDatas) => {
     
     // select the form > select > options
     const categoryOptionsArea = document.getElementById("categoryOptionGroup");
-    console.log(categoryOptionsArea);
     
     let formCategoryOptions = "";
 
