@@ -40,9 +40,8 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
-
 let getSelectedTimeData = () => {
-
+    
     // values in the time selector inputs //
     let minuteValue = selectedMinute.value;
     let secondValue = selectedSecond.value;
@@ -50,8 +49,43 @@ let getSelectedTimeData = () => {
     // equalize selected time and counter time //
     counterSecond.textContent = secondValue;
     counterMinute.textContent = minuteValue;
+
+    // returned datas to use in calculateAndSaveDatas() //
+    return [minuteValue,secondValue];
 }
 
+
+const calculateAndSaveTimeDatas = () => {
+    
+    // which category is active now //
+    const selectedCategory = document.getElementById("categoryOptions").value;
+
+    // how many minute was completed (string) //
+    const [minuteString,secondString] = getSelectedTimeData();
+
+    const completedMinute = Number(minuteString);
+    const completedSecond = Number(secondString);
+
+    let localDatas = getDatasFromStorage();
+
+    // catch the category in storage and plus time datas with completed time numbers //
+    localDatas.forEach(e => {
+        if(e.categoryName === selectedCategory){
+
+            e.totalMinute += completedMinute;
+            e.totalSecond += completedSecond;
+            if(e.totalSecond > 59){
+                e.totalSecond -= 60;
+                e.totalMinute ++;
+            }
+
+            console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
+        }
+    });
+
+    // update the localStorage //
+    loadDatasToStorage(localDatas);
+}
 
 /*  NOTE :  
 The variable has been defined in global scope consciously. It is some risky, but practical to access and stop interval process from everywhere.    */
@@ -59,19 +93,26 @@ The variable has been defined in global scope consciously. It is some risky, but
 var countDownInterval;  // Interval Function Variable//
 
 const countTheTimerDown = () => {
-
+    
     // turn strings into number for easier changes
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
     secondNumber --;
-
+    
     if(secondNumber < 0){
 
         secondNumber = 59;
         minuteNumber --;
     }
+    else if(minuteNumber === 0 && secondNumber === 0){
 
+        clearInterval(countDownInterval);
+        calculateAndSaveTimeDatas();
+        console.log("else if - 00:00 oldu ve durduruldu");
+    }
+
+    
     // turn them into string for textContent
     counterMinute.textContent = minuteNumber.toString();
     counterSecond.textContent = secondNumber.toString();
@@ -80,7 +121,6 @@ const countTheTimerDown = () => {
 // this 'll display that timer situation right now
 let timerIsRunningNow = false;
 
-
 const mainTimerMekanism = () => {
 
     // check the timer : is running or not.
@@ -88,7 +128,7 @@ const mainTimerMekanism = () => {
 
         // start the timer
         countDownInterval = setInterval(countTheTimerDown,1000);
-
+        
         timerIsRunningNow = true;
     }
     else{   // pause the timer//
@@ -98,19 +138,53 @@ const mainTimerMekanism = () => {
 }
 
 const resetTheTimer = () => {
-
+    
     // firstly, check the Timer already is running or not
     if(timerIsRunningNow === true){
         clearInterval(countDownInterval);
     }
-
+    
     counterMinute.textContent = 0;
     counterSecond.textContent = 0;
+    
+}
 
+// display categories on form element to select
+const displayCategoriesOnForm = (localDatas) => {
+    
+    // select the form > select > options
+    const categoryOptionsArea = document.getElementById("categoryOptionGroup");
+    
+    let formCategoryOptions = "";
+
+    localDatas.forEach(e => {
+        formCategoryOptions +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
+    });
+
+    categoryOptionsArea.innerHTML = formCategoryOptions;
+}
+
+const loadCategoryDatasToInterface = (localDatas) => {
+
+    let listArea = document.getElementsByClassName("list-area")[0];
+
+    let categoryListItems = "";
+
+    localDatas.forEach(e => {
+        categoryListItems +=`<li class="category-list-item">
+        <span class="list-category-name">${e.categoryName}</span><span class="list-category-time">${e.totalMinute}</span></li>`;
+    });
+
+    listArea.innerHTML = categoryListItems;
 }
 
 const loadDatasToStorage = (localDatas) => {
 
+    //firstly, load categories to UI (form-area and list-area)
+    displayCategoriesOnForm(localDatas);
+    loadCategoryDatasToInterface(localDatas);
+
+    // finally, load to LocalStorage
     localStorage.setItem("category",JSON.stringify(localDatas));
 }
 
@@ -141,21 +215,6 @@ const displayInfoMessage = (infoType,message) => {
     }
 }
 
-// display categories on form element to select
-const displayCategoriesOnForm = (localDatas) => {
-
-    // select the form > select > options
-    const categoryOptionsArea = document.getElementById("categoryOptions");
- 
-    console.log(localDatas);
-
-
-    localDatas.forEach(e => {
-
-        categoryOptionsArea.innerHTML +=`<option class="addedCategoryOption" value="${e.categoryName}">${e.categoryName}</option>`;
-
-    });
-}
 
 const getDatasFromStorage = () => {
 
@@ -186,11 +245,10 @@ const createNewCategory = () => {
 
     if(categoryExist === undefined){
 
-        const newCategoryObject = new Category(newCategoryName,0,0);
-        localDatas.push(newCategoryObject);
-        loadDatasToStorage(localDatas);
-        displayCategoriesOnForm(localDatas);
-        displayInfoMessage("success","Yeni bir kategori ekledin");
+            const newCategoryObject = new Category(newCategoryName,0,0);
+            localDatas.push(newCategoryObject);
+            loadDatasToStorage(localDatas);
+            displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
         console.log("bu kategori zaten var...");
@@ -198,13 +256,16 @@ const createNewCategory = () => {
     }
 }
 
+
 const allEvents = () => {
     
-    document.addEventListener("DOMContentLoaded",() => {
+    document.addEventListener("DOMContentLoaded", (() => {
 
-        let localDatas = getDatasFromStorage();
-        displayCategoriesOnForm(localDatas);
-    });
+        let allStorageDatas = getDatasFromStorage();
+
+        displayCategoriesOnForm(allStorageDatas);
+        loadCategoryDatasToInterface(allStorageDatas);
+    }));
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
     startButton.addEventListener("click",mainTimerMekanism);
