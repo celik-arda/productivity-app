@@ -213,6 +213,12 @@ const displayInfoMessage = (infoType,message) => {
         messageElement.style.color = "green";
         messageElement.style.background = "yellowgreen";
     }
+
+    // Delete message automatically after 1.5 sec //
+    setTimeout(() => {
+        messageElement.remove();
+    }, 1500);
+
 }
 
 
