@@ -50,8 +50,42 @@ let getSelectedTimeData = () => {
     counterSecond.textContent = secondValue;
     counterMinute.textContent = minuteValue;
 
+    // returned datas to use in calculateAndSaveDatas() //
+    return [minuteValue,secondValue];
 }
 
+
+const calculateAndSaveTimeDatas = () => {
+    
+    // which category is active now //
+    const selectedCategory = document.getElementById("categoryOptions").value;
+
+    // how many minute was completed (string) //
+    const [minuteString,secondString] = getSelectedTimeData();
+
+    const completedMinute = Number(minuteString);
+    const completedSecond = Number(secondString);
+
+    let localDatas = getDatasFromStorage();
+
+    // catch the category in storage and plus time datas with completed time numbers //
+    localDatas.forEach(e => {
+        if(e.categoryName === selectedCategory){
+
+            e.totalMinute += completedMinute;
+            e.totalSecond += completedSecond;
+            if(e.totalSecond > 59){
+                e.totalSecond -= 60;
+                e.totalMinute ++;
+            }
+
+            console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
+        }
+    });
+
+    // update the localStorage //
+    loadDatasToStorage(localDatas);
+}
 
 /*  NOTE :  
 The variable has been defined in global scope consciously. It is some risky, but practical to access and stop interval process from everywhere.    */
@@ -74,6 +108,7 @@ const countTheTimerDown = () => {
     else if(minuteNumber === 0 && secondNumber === 0){
 
         clearInterval(countDownInterval);
+        calculateAndSaveTimeDatas();
         console.log("else if - 00:00 oldu ve durduruldu");
     }
 
