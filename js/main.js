@@ -40,51 +40,79 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
-let getSelectedTimeData = () => {
-    
-    // values in the time selector inputs //
-    let minuteValue = selectedMinute.value;
-    let secondValue = selectedSecond.value;
-    
-    // equalize selected time and counter time //
-    counterSecond.textContent = secondValue;
-    counterMinute.textContent = minuteValue;
+const getSelectedCategory = () => {
 
-    // returned datas to use in calculateAndSaveDatas() //
-    return [minuteValue,secondValue];
+        // get the active-selected category //
+        const selectedCategory = document.getElementById("categoryOptions").value;
+
+        return selectedCategory;
+
+}
+
+let getSelectedTimeData = () => {
+
+    const selectedCategory = getSelectedCategory();
+
+    switch(selectedCategory){
+
+        case "notSelected":
+            displayInfoMessage("error","Başlamadan önce neye odaklanmak istediğini seçmelisin");
+            break;
+
+        default:
+            displayInfoMessage("success","Başlat'a basarak odaklanma oturumunu başlatabilirsin");
+
+            // values in the time selector inputs //
+            let minuteValue = selectedMinute.value;
+            let secondValue = selectedSecond.value;
+            
+            // equalize selected time and counter time //
+            counterSecond.textContent = secondValue;
+            counterMinute.textContent = minuteValue;
+        
+            return [minuteValue,secondValue];
+            
+        }
+        
+        // return datas to use in calculateAndSaveDatas(); //
 }
 
 
 const calculateAndSaveTimeDatas = () => {
     
-    // which category is active now //
-    const selectedCategory = document.getElementById("categoryOptions").value;
+    //  HATA BU FONKSİYONDAN KAYNAKLI. bU FONKSİYON SADECE SÜRE TAMAMLANINCA ÇALIŞIYOR. yAZDIĞIN İNPUT DEĞERİ ONUN İÇİN YAZDIRILMIYOR ...
 
-    // how many minute was completed (string) //
-    const [minuteString,secondString] = getSelectedTimeData();
 
-    const completedMinute = Number(minuteString);
-    const completedSecond = Number(secondString);
+            // how many minute was completed (string) //
+            const [minuteString,secondString] = getSelectedTimeData();
+        
+            const completedMinute = Number(minuteString);
+            const completedSecond = Number(secondString);
+        
+            let localDatas = getDatasFromStorage();
 
-    let localDatas = getDatasFromStorage();
+            const selectedCategory = getSelectedCategory();
+        
+            // catch the category in storage and plus time datas with completed time numbers //
+            localDatas.forEach(e => {
+                if(e.categoryName === selectedCategory){
+        
+                    e.totalMinute += completedMinute;
+                    e.totalSecond += completedSecond;
+                    if(e.totalSecond > 59){
+                        e.totalSecond -= 60;
+                        e.totalMinute ++;
+                    }
+        
+                    console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
+                }
+            });
+        
+            // update the localStorage //
+            loadDatasToStorage(localDatas);
 
-    // catch the category in storage and plus time datas with completed time numbers //
-    localDatas.forEach(e => {
-        if(e.categoryName === selectedCategory){
+    
 
-            e.totalMinute += completedMinute;
-            e.totalSecond += completedSecond;
-            if(e.totalSecond > 59){
-                e.totalSecond -= 60;
-                e.totalMinute ++;
-            }
-
-            console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
-        }
-    });
-
-    // update the localStorage //
-    loadDatasToStorage(localDatas);
 }
 
 /*  NOTE :  
@@ -217,7 +245,7 @@ const displayInfoMessage = (infoType,message) => {
     // Delete message automatically after 1.5 sec //
     setTimeout(() => {
         messageElement.remove();
-    }, 1500);
+    }, 2500);
 
 }
 
@@ -260,6 +288,9 @@ const createNewCategory = () => {
         console.log("bu kategori zaten var...");
         displayInfoMessage("error", "Bu kategori zaten mevcut !");
     }
+
+    // clean the input //
+    addCategoryInput.value = "";
 }
 
 

@@ -55,10 +55,11 @@ button {
 .info-message-area #info-message{
     display: flex;
     width: 70%;
-    height: 32px;
+    height: 48px;
     margin: 0 auto;
     justify-content: center;
     align-items: center;
+    text-align: center;
     font-weight: bold;
     font-size: 1rem;;
 }
