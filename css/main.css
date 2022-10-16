@@ -26,6 +26,15 @@ section#Timer-section {
     margin: 0 auto;
 }
 
+.select-category-area #categoryOptions {
+
+    width : 10rem;
+    height: 2rem;
+    border: 3px solid teal;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
 button {
     line-height: 2rem;
     padding: 0 1rem;

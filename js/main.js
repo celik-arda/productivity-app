@@ -40,13 +40,19 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
+// const preventChangeOfCategory = () => {
+
+//     const categorySelectFormElement = document.getElementById("categoryOptions");
+
+//     console.log(categorySelectFormElement);
+// }
+
 const getSelectedCategory = () => {
 
         // get the active-selected category //
         const selectedCategory = document.getElementById("categoryOptions").value;
 
         return selectedCategory;
-
 }
 
 let getSelectedTimeData = () => {
@@ -69,50 +75,63 @@ let getSelectedTimeData = () => {
             // equalize selected time and counter time //
             counterSecond.textContent = secondValue;
             counterMinute.textContent = minuteValue;
-        
-            return [minuteValue,secondValue];
             
+            // return datas to use in calculateAndSaveDatas(); //
+            return [minuteValue,secondValue];
         }
-        
-        // return datas to use in calculateAndSaveDatas(); //
 }
 
 
 const calculateAndSaveTimeDatas = () => {
-    
-    //  HATA BU FONKSİYONDAN KAYNAKLI. bU FONKSİYON SADECE SÜRE TAMAMLANINCA ÇALIŞIYOR. yAZDIĞIN İNPUT DEĞERİ ONUN İÇİN YAZDIRILMIYOR ...
 
+    // how many minute was completed (string) //
+    const [minuteString,secondString] = getSelectedTimeData();
+        
+        const completedMinute = Number(minuteString);
+        const completedSecond = Number(secondString);
+        
+        let localDatas = getDatasFromStorage();
 
-            // how many minute was completed (string) //
-            const [minuteString,secondString] = getSelectedTimeData();
+        const selectedCategory = getSelectedCategory();
         
-            const completedMinute = Number(minuteString);
-            const completedSecond = Number(secondString);
+        // catch the category in storage and plus time datas with completed time numbers //
+        localDatas.forEach(e => {
+            if(e.categoryName === selectedCategory){
         
-            let localDatas = getDatasFromStorage();
-
-            const selectedCategory = getSelectedCategory();
-        
-            // catch the category in storage and plus time datas with completed time numbers //
-            localDatas.forEach(e => {
-                if(e.categoryName === selectedCategory){
-        
-                    e.totalMinute += completedMinute;
-                    e.totalSecond += completedSecond;
-                    if(e.totalSecond > 59){
+                e.totalMinute += completedMinute;
+                e.totalSecond += completedSecond;
+                if(e.totalSecond > 59){
                         e.totalSecond -= 60;
                         e.totalMinute ++;
-                    }
-        
-                    console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
                 }
-            });
         
-            // update the localStorage //
-            loadDatasToStorage(localDatas);
+                console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
+            }
+        });
+        
+        // update the localStorage //
+        loadDatasToStorage(localDatas);
+}
 
+
+// this 'll display that timer situation right now
+let timerIsRunningNow = false;
+
+const mainTimerMekanism = () => {
     
-
+    // check the timer : is running or not.
+    if(timerIsRunningNow === false){
+        
+        // start the timer
+        countDownInterval = setInterval(countTheTimerDown,1000);
+        timerIsRunningNow = true;
+        preventChangeOnRunning(timerIsRunningNow);
+    }
+    else{   // pause the timer//
+        clearInterval(countDownInterval);
+        timerIsRunningNow = false;
+        preventChangeOnRunning(timerIsRunningNow);
+    }
 }
 
 /*  NOTE :  
@@ -133,11 +152,15 @@ const countTheTimerDown = () => {
         secondNumber = 59;
         minuteNumber --;
     }
+    // timer has been completed //
     else if(minuteNumber === 0 && secondNumber === 0){
 
         clearInterval(countDownInterval);
+        timerIsRunningNow = false;
         calculateAndSaveTimeDatas();
         console.log("else if - 00:00 oldu ve durduruldu");
+        console.log("timer tamamlandı ve timerIsRunning durumu : ",timerIsRunningNow);
+        preventChangeOnRunning(timerIsRunningNow);
     }
 
     
@@ -146,22 +169,23 @@ const countTheTimerDown = () => {
     counterSecond.textContent = secondNumber.toString();
 }
 
-// this 'll display that timer situation right now
-let timerIsRunningNow = false;
-
-const mainTimerMekanism = () => {
-
-    // check the timer : is running or not.
-    if(timerIsRunningNow === false){
-
-        // start the timer
-        countDownInterval = setInterval(countTheTimerDown,1000);
+// While timer is running, category cannot change //
+const preventChangeOnRunning = (timerIsRunningNow) => {
+    
+    const selectedCategory = document.getElementById("categoryOptions");
+    console.log("fonksiyon çalışması : ",timerIsRunningNow);
+    // check the Timer- Work or Not //
+    switch(timerIsRunningNow){
         
-        timerIsRunningNow = true;
-    }
-    else{   // pause the timer//
-        clearInterval(countDownInterval);
-        timerIsRunningNow = false;
+        // prevent any changes on category selections //
+        case true:
+            selectedCategory.disabled = true;
+            break;
+
+        // let whatever changes on category selections //
+        default:
+            selectedCategory.disabled = false;
+            break;
     }
 }
 
@@ -170,6 +194,7 @@ const resetTheTimer = () => {
     // firstly, check the Timer already is running or not
     if(timerIsRunningNow === true){
         clearInterval(countDownInterval);
+        timerIsRunningNow = false;
     }
     
     counterMinute.textContent = 0;
