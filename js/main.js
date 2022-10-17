@@ -22,6 +22,12 @@ const addCategoryInput = document.getElementById("addCategoryInput");
 // Button to Add New Category
 const addCategoryButton = document.getElementById("addCategoryButton");
 
+// delete Icons 
+const deleteIcon = document.getElementsByClassName("deleteIcon");
+
+// Category list area
+const categoryListArea = document.getElementsByClassName("list-area")[0];
+
 
 
 // prevent the increase in second after "60"
@@ -104,8 +110,6 @@ const calculateAndSaveTimeDatas = () => {
                         e.totalSecond -= 60;
                         e.totalMinute ++;
                 }
-        
-                console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
             }
         });
         
@@ -225,7 +229,12 @@ const loadCategoryDatasToInterface = (localDatas) => {
 
     localDatas.forEach(e => {
         categoryListItems +=`<li class="category-list-item">
-        <span class="list-category-name">${e.categoryName}</span><span class="list-category-time">${e.totalMinute}</span></li>`;
+        <span class="list-category-name">${e.categoryName}</span>
+        <span class="list-category-time">${e.totalMinute}</span>
+        <span>
+        <img class="deleteIcon" src="./assets/delete_icon_01_.svg" alt="delete_icon" name="${e.categoryName}">
+        </span>
+        </li>`;
     });
 
     listArea.innerHTML = categoryListItems;
@@ -319,6 +328,33 @@ const createNewCategory = () => {
 }
 
 
+const deleteCategoryFromUI = (e) => {
+
+    const clickedPoint = e.target;
+
+    if(clickedPoint.className === "deleteIcon"){
+
+        const deletingItemName = clickedPoint.name;
+        const parentListItem = clickedPoint.parentElement.parentElement;
+
+        parentListItem.remove();
+        deleteCategoryFromStorage(deletingItemName);
+    }
+}
+
+const deleteCategoryFromStorage = (deletingItemName) => {
+
+    let localDatas = getDatasFromStorage();
+
+    localDatas.forEach((e,index) => {
+        if(e.categoryName === deletingItemName){
+            localDatas.splice(index,1);
+        }
+    });
+
+    loadDatasToStorage(localDatas);
+}  
+
 const allEvents = () => {
     
     document.addEventListener("DOMContentLoaded", (() => {
@@ -330,8 +366,9 @@ const allEvents = () => {
     }));
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
-    startButton.addEventListener("click",mainTimerMekanism);
-    resetTimerButton.addEventListener("click",resetTheTimer);
-    addCategoryButton.addEventListener("click",createNewCategory);
+    startButton.addEventListener("click", mainTimerMekanism);
+    resetTimerButton.addEventListener("click", resetTheTimer);
+    addCategoryButton.addEventListener("click", createNewCategory);
+    categoryListArea.addEventListener("click", deleteCategoryFromUI);
 }
 allEvents();
