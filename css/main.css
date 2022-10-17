@@ -11,7 +11,7 @@ section#Timer-section {
     grid-template-rows: 30% 15% 15% 15% 15%;
 }
 
-.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area, .new-category-container{
+.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area, .new-category-container, .clear-button-container{
     box-sizing: border-box;
     border: 1px dashed red;
 }
@@ -59,6 +59,12 @@ button {
 #newCategorySection button {
     width: 50%;
     margin: auto;
+}
+
+#clearButtonSection {
+    width: 70%;
+    margin: 2rem auto;
+    text-align: center;
 }
 
 .info-message-area #info-message{

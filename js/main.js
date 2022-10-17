@@ -28,6 +28,9 @@ const deleteIcon = document.getElementsByClassName("deleteIcon");
 // Category list area
 const categoryListArea = document.getElementsByClassName("list-area")[0];
 
+//  Clear all button
+const clearAllButton = document.getElementById("clearAllButton");
+
 
 
 // prevent the increase in second after "60"
@@ -114,7 +117,7 @@ const calculateAndSaveTimeDatas = () => {
         });
         
         // update the localStorage //
-        loadDatasToStorage(localDatas);
+        loadAllDatas(localDatas);
 }
 
 
@@ -221,7 +224,7 @@ const displayCategoriesOnForm = (localDatas) => {
     categoryOptionsArea.innerHTML = formCategoryOptions;
 }
 
-const loadCategoryDatasToInterface = (localDatas) => {
+const displayCategoriesOnList = (localDatas) => {
 
     let listArea = document.getElementsByClassName("list-area")[0];
 
@@ -240,11 +243,11 @@ const loadCategoryDatasToInterface = (localDatas) => {
     listArea.innerHTML = categoryListItems;
 }
 
-const loadDatasToStorage = (localDatas) => {
+const loadAllDatas = (localDatas) => {
 
     //firstly, load categories to UI (form-area and list-area)
     displayCategoriesOnForm(localDatas);
-    loadCategoryDatasToInterface(localDatas);
+    displayCategoriesOnList(localDatas);
 
     // finally, load to LocalStorage
     localStorage.setItem("category",JSON.stringify(localDatas));
@@ -315,7 +318,7 @@ const createNewCategory = () => {
 
             const newCategoryObject = new Category(newCategoryName,0,0);
             localDatas.push(newCategoryObject);
-            loadDatasToStorage(localDatas);
+            loadAllDatas(localDatas);
             displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
@@ -352,8 +355,23 @@ const deleteCategoryFromStorage = (deletingItemName) => {
         }
     });
 
-    loadDatasToStorage(localDatas);
-}  
+    loadAllDatas(localDatas);
+}
+
+// Delete All Categories
+const clearAllCategories = () => {
+
+    localStorage.removeItem("category");
+
+    // get updated (empty) data to sync with UI parts //
+    let localDatas = getDatasFromStorage();
+
+    // update the category selection form //
+    displayCategoriesOnForm(localDatas);
+
+    // update the data list above the page  //
+    displayCategoriesOnList(localDatas);
+}
 
 const allEvents = () => {
     
@@ -362,7 +380,7 @@ const allEvents = () => {
         let allStorageDatas = getDatasFromStorage();
 
         displayCategoriesOnForm(allStorageDatas);
-        loadCategoryDatasToInterface(allStorageDatas);
+        displayCategoriesOnList(allStorageDatas);
     }));
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
@@ -370,5 +388,6 @@ const allEvents = () => {
     resetTimerButton.addEventListener("click", resetTheTimer);
     addCategoryButton.addEventListener("click", createNewCategory);
     categoryListArea.addEventListener("click", deleteCategoryFromUI);
+    clearAllButton.addEventListener("click", clearAllCategories);
 }
 allEvents();
