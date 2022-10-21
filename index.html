@@ -17,87 +17,86 @@
         <h1>COUNTER</h1>
     </header>
 
+    <!-- (start)  TIMER SECTION -->
+    <section class="timer-section">
+        <div class="main-container-1">
 
-    <!-- (start) TIMER AREA -->
-    <section id="Timer-section">
-        
-        <div class="counter-area">
-            <p class="counter-time">
-                <span id="counterMinute">00</span>
-                <span>:</span>
-                <span id="counterSecond">00</span>
-            </p>
-        </div>
+            <div class="timer-area">
+                    <span id="counterMinute">00</span>
+                    <span id="">:</span>
+                    <span id="counterSecond">00</span>
+            </div>
 
-        <div class="start-button-area">
-            <button id="startButton">Başlat / Mola Ver</button>
-        </div>
+            <div class="start-button-area">
+                <button id="startButton">Başlat / Mola ver</button>
+            </div>
 
-        <div class="select-time-area">
-            <form id="timeSelectorForm">
-                <input class="selectorInput" id="selectedMinute" type="number" max="" value="0">
-                <input class="selectorInput" id="selectedSecond" type="number" max="60" value="0">
-            </form>
-        </div>
+            <div class="time-selector-area">
+                <form id="timeSelectorForm">
+                    <input class="time-selector-input" type="number" id="selectedMinute" max="" value="0">
+                    <input class="time-selector-input" type="number" id="selectedSecond" max="60" value="0">
+                </form>
+            </div>
 
-        <div class="select-category-area">
-            <form>
+            <div class="category-selector-area">
                 <select name="categoryOptions" id="categoryOptions">
                     <option selected disabled value="notSelected">Bir kategori seç</option>
                     <optgroup label="Kategoriler" class="category-option-group" id="categoryOptionGroup">
+
                         <!-- option tags of the categories here -->
+                        
                     </optgroup>
                 </select>
-            </form>
-        </div>
+            </div>
 
-        <div class="button-1-area">
-            <button id="adjusterButton" class="play-pause-button">
-                Süreyi Ayarla
-            </button>
-        </div>
+            <div class="adjust-reset-area">
+                <div class="adjust-reset-buttons">
+                    <button id="adjusterButton" class="play-pause-button">
+                        Süreyi Ayarla
+                    </button>
+                    <button id="clearButton" class="clear-button">
+                        Sıfırla
+                    </button>
+                </div>
+            </div>
 
-        <div class="button-2-area">
-            <button id="clearButton" class="clear-button">
-                Sıfırla
-            </button>
-        </div>
+            <div class="info-message-area">
+                <!-- Information messages here -->
+            </div>
 
-    </section>
-    <!-- (end)  TIMER AREA -->
-
-    <!-- (start) DISPLAYING INFORMATION MESSAGE AREA -->
-    <section class="info-message-section">
-        <div class="info-message-area">
-            <!-- Information messages here -->
         </div>
     </section>
-    <!-- (end) DISPLAYING INFORMATION MESSAGE AREA -->
+    <!-- (end)  TIMER SECTION -->
 
+    <!-- (start)  CATEGORY BUTTONS SECTION (ADD NEW, CLEAR ALL, ETC..) -->
+    <section class="add-delete-section">
 
-    <!-- (start)  NEW CATEGORY AREA -->
-    <section id="newCategorySection">
-        <div class="new-category-container">
+        <div class="main-container-2">
             <input id="addCategoryInput" type="text">
             <button id="addCategoryButton">Ekle</button>
-        </div>
-    </section>
-    <!-- (end)  NEW CATEGORY AREA -->
-
-    <!-- (start)  CLEAR ALL BUTTON AREA -->
-    <section id="clearButtonSection">
-        <div class="clear-button-container">
             <button id="clearAllButton">Hepsini Sil</button>
         </div>
-    </section>
-    <!-- (end)  CLEAR ALL BUTTON AREA -->
 
-
-    <!-- (start)  CATEGORY LIST AREA -->
-    <section id="list-section">
-        <ul class="list-area"></ul>
     </section>
-    <!-- (end)  CATEGORY AREA -->
+    <!-- (end)  CATEGORY BUTTONS SECTION (ADD NEW, CLEAR ALL ETC..) -->
+    
+    
+    <!-- (start)  CATEGORY LIST SECTION -->
+    <section class="list-section">
+        <div class="main-container-3">
+            <ul class="list-area">
+
+                <!-- `<li class="category-list-item">
+                    <span class="list-category-name">${e.categoryName}</span>
+                    <span class="list-category-time">${e.totalMinute}</span>
+                    <span>
+                    <img class="deleteIcon" src="./assets/delete_icon_01_.svg" alt="delete_icon" name="${e.categoryName}">
+                    </span>
+                    </li>` -->
+            </ul>
+        </div>
+    </section>
+    <!-- (end)  CATEGORY LIST SECTION -->
 
 
     <br><br><br><br><br>

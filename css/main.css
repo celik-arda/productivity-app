@@ -1,98 +1,119 @@
+@import url("./default.css");
+
+/* Default ayarlar (sonra düzenlenecek) */
+
+section > div {
+    border: 4px dotted darkred;
+}
+
+.main-container-1 > div {
+    border: 2px dashed blue;
+}
+/* (end)  Default ayarlar (sonra düzenlenecek) */
+
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
+    color: yellow;
 }
 
-section#Timer-section {
-    height: 360px;
-    width: 70%;
-    margin: 0 auto;
-    text-align: center;
-    display: grid;
-    grid-template-rows: 30% 15% 15% 15% 15%;
-}
-
-.counter-area, .start-button-area, .select-time-area, .button-1-area, .button-2-area, .new-category-container, .clear-button-container{
-    box-sizing: border-box;
-    border: 1px dashed red;
-}
-.counter-area span {
-    font-size: 60px;
-}
-
-.select-time-area input {
-    width: 24%;
-    text-align: center;
-    font-size: 32px;
-    margin: 0 auto;
-}
-
-.select-category-area #categoryOptions {
-
-    width : 10rem;
-    height: 2rem;
-    border: 3px solid teal;
-    box-sizing: border-box;
-    border-radius: 5px;
+.main-container-1,
+.main-container-2,
+.main-container-3 {
+    border-radius: 16px;
+    box-shadow: 4px 8px 40px 5px #2a0000;
 }
 
 button {
-    line-height: 2rem;
-    padding: 0 1rem;
+    line-height: 30px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 6px;
 }
 
-#newCategorySection{
-    width: 70%;
-    height: 60px;
-    margin: 0 auto;
-}
-
-#newCategorySection .new-category-container {
-    width: 75%;
-    height: 80px;
+.timer-section .main-container-1 {
+    width: 90%;
+    height: 364px;
     margin: 0 auto;
     text-align: center;
     display: grid;
-    grid-template-rows: 30% 30%;
-    row-gap: 0.5rem;
+    grid-template-rows: 120px 80px 60px 48px 54px 4px;
 }
 
-#newCategorySection button {
-    width: 50%;
+.timer-section .timer-area {
+    color: yellow;
+    font-size: 6rem;
+}
+
+.timer-section .start-button-area {
+    margin-bottom: 1.8rem;
+}
+
+.timer-section .time-selector-input {
+    width: 9%;
+    height: 3rem;
+    font-size: 2.6rem;
+    color: yellow;
+    background-color: aquamarine;
+    font-weight: 700;
+    border-radius: 6px;
+    text-align: center;
+}
+
+
+
+.timer-section .category-selector-area {
+    width: 30%;
+    line-height: 40px;
     margin: auto;
 }
 
-#clearButtonSection {
-    width: 70%;
-    margin: 2rem auto;
-    text-align: center;
-}
-
-.info-message-area #info-message{
-    display: flex;
-    width: 70%;
-    height: 48px;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.timer-section select {
+    height: 40px;
+    font-size: 20px;
     font-weight: bold;
-    font-size: 1rem;;
+    border-radius: 6px;
 }
 
-#list-section {
-    width: 70%;
-    margin: 2rem auto;
+.timer-section .adjust-reset-area {
+    text-align: center;
 }
 
-ul{
-    padding: 0 1rem;
+.timer-section .adjust-reset-buttons {
+    margin: auto;
+    width: 50%;
 }
 
-#list-section ul li {
+section > .main-container-2 {
+    width: 90%;
+    height: 120px;
+    margin: auto;
+    text-align: center;
+}
+
+.add-delete-section #addCategoryInput {
+    height: 36px;
+    background-color: aquamarine;
+}
+
+.list-section .main-container-3 {
+    width: 90%;
+    height: fit-content;
+    margin: auto;
+}
+
+.list-section .list-area {
+    /* margin: auto; */
+    padding: 0 7rem;
+}
+
+.list-section .category-list-item {
     width: 100%;
-    height: 2rem;
     display: grid;
-    grid-template-columns: 6fr 4fr 2fr;
-    padding: 0 0.5rem;
-    border: 2px solid blue;
+    grid-template-columns: 7fr 6fr 1fr;
 }
+
+
+
+/* .list-section .category-list-item span {
+
+} */
