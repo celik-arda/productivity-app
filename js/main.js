@@ -234,8 +234,8 @@ const displayCategoriesOnList = (localDatas) => {
         categoryListItems +=`<li class="category-list-item">
         <span class="list-category-name">${e.categoryName}</span>
         <span class="list-category-time">${e.totalMinute}</span>
-        <span>
-        <img class="deleteIcon" src="./assets/delete_icon_01_.svg" alt="delete_icon" name="${e.categoryName}">
+        <span class="list-category-icon">
+        <img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}">
         </span>
         </li>`;
     });
