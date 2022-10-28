@@ -49,13 +49,6 @@ let transformSelectorforEachMinute = () => {
     }
 }
 
-// const preventChangeOfCategory = () => {
-
-//     const categorySelectFormElement = document.getElementById("categoryOptions");
-
-//     console.log(categorySelectFormElement);
-// }
-
 const getSelectedCategory = () => {
 
         // get the active-selected category //
@@ -126,18 +119,30 @@ let timerIsRunningNow = false;
 
 const mainTimerMekanism = () => {
     
-    // check the timer : is running or not.
-    if(timerIsRunningNow === false){
-        
+    const currentMinute = Number(document.getElementById("counterMinute").textContent);
+    const currentSecond = Number(document.getElementById("counterSecond").textContent);
+
+    const selectedCategory = document.getElementById("categoryOptions");
+
+    // check the timer : is running or not. //
+    
+    if(currentMinute === 0 && currentSecond === 0){
+        // Timer already is Not running (00:00) //
+        // Prevent to countdown negative numbers, do Not nothing //
+
+        return;
+    }
+    else if(timerIsRunningNow === false){
         // start the timer
         countDownInterval = setInterval(countTheTimerDown,1000);
         timerIsRunningNow = true;
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryDisabled");
     }
-    else{   // pause the timer//
+    else{
+        // pause the timer//
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryDisabled");
     }
 }
 
@@ -152,12 +157,16 @@ const countTheTimerDown = () => {
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
+    const selectedCategory = document.getElementById("categoryOptions");
+
     secondNumber --;
     
+    // selectedCategory.disabled = true;
     if(secondNumber < 0){
 
         secondNumber = 59;
         minuteNumber --;
+
     }
     // timer has been completed //
     else if(minuteNumber === 0 && secondNumber === 0){
@@ -165,9 +174,7 @@ const countTheTimerDown = () => {
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
         calculateAndSaveTimeDatas();
-        console.log("else if - 00:00 oldu ve durduruldu");
-        console.log("timer tamamlandı ve timerIsRunning durumu : ",timerIsRunningNow);
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryEnabled");
     }
 
     
@@ -177,22 +184,23 @@ const countTheTimerDown = () => {
 }
 
 // While timer is running, category cannot change //
-const preventChangeOnRunning = (timerIsRunningNow) => {
+const preventChangesOnCategory = (timerSituation) => {
     
+    let currentMinute = Number(document.getElementById("counterMinute").textContent);
+    let currentSecond = Number(document.getElementById("counterSecond").textContent);
+
     const selectedCategory = document.getElementById("categoryOptions");
-    console.log("fonksiyon çalışması : ",timerIsRunningNow);
-    // check the Timer- Work or Not //
-    switch(timerIsRunningNow){
-        
-        // prevent any changes on category selections //
-        case true:
+
+    switch (timerSituation){
+
+        // Until timer's finished, don't let changes on Category //
+        case "makeCategoryDisabled":
             selectedCategory.disabled = true;
             break;
 
-        // let whatever changes on category selections //
-        default:
+        // Category can be changed right now //
+        default :
             selectedCategory.disabled = false;
-            break;
     }
 }
 
@@ -203,6 +211,7 @@ const resetTheTimer = () => {
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
     }
+    preventChangesOnCategory("makeCategoryEnabled");
     
     counterMinute.textContent = 0;
     counterSecond.textContent = 0;
@@ -322,7 +331,6 @@ const createNewCategory = () => {
             displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
-        console.log("bu kategori zaten var...");
         displayInfoMessage("error", "Bu kategori zaten mevcut !");
     }
 
