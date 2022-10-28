@@ -22,6 +22,15 @@ const addCategoryInput = document.getElementById("addCategoryInput");
 // Button to Add New Category
 const addCategoryButton = document.getElementById("addCategoryButton");
 
+// delete Icons 
+const deleteIcon = document.getElementsByClassName("deleteIcon");
+
+// Category list area
+const categoryListArea = document.getElementsByClassName("list-area")[0];
+
+//  Clear all button
+const clearAllButton = document.getElementById("clearAllButton");
+
 
 
 // prevent the increase in second after "60"
@@ -39,13 +48,6 @@ let transformSelectorforEachMinute = () => {
         selectedMinute.value = minuteDisplay.toString();
     }
 }
-
-// const preventChangeOfCategory = () => {
-
-//     const categorySelectFormElement = document.getElementById("categoryOptions");
-
-//     console.log(categorySelectFormElement);
-// }
 
 const getSelectedCategory = () => {
 
@@ -104,13 +106,11 @@ const calculateAndSaveTimeDatas = () => {
                         e.totalSecond -= 60;
                         e.totalMinute ++;
                 }
-        
-                console.log("en son hali >>> ",e.totalMinute," : ",e.totalSecond);
             }
         });
         
         // update the localStorage //
-        loadDatasToStorage(localDatas);
+        loadAllDatas(localDatas);
 }
 
 
@@ -119,18 +119,30 @@ let timerIsRunningNow = false;
 
 const mainTimerMekanism = () => {
     
-    // check the timer : is running or not.
-    if(timerIsRunningNow === false){
-        
+    const currentMinute = Number(document.getElementById("counterMinute").textContent);
+    const currentSecond = Number(document.getElementById("counterSecond").textContent);
+
+    const selectedCategory = document.getElementById("categoryOptions");
+
+    // check the timer : is running or not. //
+    
+    if(currentMinute === 0 && currentSecond === 0){
+        // Timer already is Not running (00:00) //
+        // Prevent to countdown negative numbers, do Not nothing //
+
+        return;
+    }
+    else if(timerIsRunningNow === false){
         // start the timer
         countDownInterval = setInterval(countTheTimerDown,1000);
         timerIsRunningNow = true;
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryDisabled");
     }
-    else{   // pause the timer//
+    else{
+        // pause the timer//
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryDisabled");
     }
 }
 
@@ -145,12 +157,16 @@ const countTheTimerDown = () => {
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
+    const selectedCategory = document.getElementById("categoryOptions");
+
     secondNumber --;
     
+    // selectedCategory.disabled = true;
     if(secondNumber < 0){
 
         secondNumber = 59;
         minuteNumber --;
+
     }
     // timer has been completed //
     else if(minuteNumber === 0 && secondNumber === 0){
@@ -158,9 +174,7 @@ const countTheTimerDown = () => {
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
         calculateAndSaveTimeDatas();
-        console.log("else if - 00:00 oldu ve durduruldu");
-        console.log("timer tamamlandı ve timerIsRunning durumu : ",timerIsRunningNow);
-        preventChangeOnRunning(timerIsRunningNow);
+        preventChangesOnCategory("makeCategoryEnabled");
     }
 
     
@@ -170,22 +184,23 @@ const countTheTimerDown = () => {
 }
 
 // While timer is running, category cannot change //
-const preventChangeOnRunning = (timerIsRunningNow) => {
+const preventChangesOnCategory = (timerSituation) => {
     
+    let currentMinute = Number(document.getElementById("counterMinute").textContent);
+    let currentSecond = Number(document.getElementById("counterSecond").textContent);
+
     const selectedCategory = document.getElementById("categoryOptions");
-    console.log("fonksiyon çalışması : ",timerIsRunningNow);
-    // check the Timer- Work or Not //
-    switch(timerIsRunningNow){
-        
-        // prevent any changes on category selections //
-        case true:
+
+    switch (timerSituation){
+
+        // Until timer's finished, don't let changes on Category //
+        case "makeCategoryDisabled":
             selectedCategory.disabled = true;
             break;
 
-        // let whatever changes on category selections //
-        default:
+        // Category can be changed right now //
+        default :
             selectedCategory.disabled = false;
-            break;
     }
 }
 
@@ -196,6 +211,7 @@ const resetTheTimer = () => {
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
     }
+    preventChangesOnCategory("makeCategoryEnabled");
     
     counterMinute.textContent = 0;
     counterSecond.textContent = 0;
@@ -217,7 +233,7 @@ const displayCategoriesOnForm = (localDatas) => {
     categoryOptionsArea.innerHTML = formCategoryOptions;
 }
 
-const loadCategoryDatasToInterface = (localDatas) => {
+const displayCategoriesOnList = (localDatas) => {
 
     let listArea = document.getElementsByClassName("list-area")[0];
 
@@ -225,17 +241,22 @@ const loadCategoryDatasToInterface = (localDatas) => {
 
     localDatas.forEach(e => {
         categoryListItems +=`<li class="category-list-item">
-        <span class="list-category-name">${e.categoryName}</span><span class="list-category-time">${e.totalMinute}</span></li>`;
+        <span class="list-category-name">${e.categoryName}</span>
+        <span class="list-category-time">${e.totalMinute}</span>
+        <span class="list-category-icon">
+        <img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}">
+        </span>
+        </li>`;
     });
 
     listArea.innerHTML = categoryListItems;
 }
 
-const loadDatasToStorage = (localDatas) => {
+const loadAllDatas = (localDatas) => {
 
     //firstly, load categories to UI (form-area and list-area)
     displayCategoriesOnForm(localDatas);
-    loadCategoryDatasToInterface(localDatas);
+    displayCategoriesOnList(localDatas);
 
     // finally, load to LocalStorage
     localStorage.setItem("category",JSON.stringify(localDatas));
@@ -306,11 +327,10 @@ const createNewCategory = () => {
 
             const newCategoryObject = new Category(newCategoryName,0,0);
             localDatas.push(newCategoryObject);
-            loadDatasToStorage(localDatas);
+            loadAllDatas(localDatas);
             displayInfoMessage("success","Yeni bir kategori ekledin");
     }
     else{
-        console.log("bu kategori zaten var...");
         displayInfoMessage("error", "Bu kategori zaten mevcut !");
     }
 
@@ -319,6 +339,48 @@ const createNewCategory = () => {
 }
 
 
+const deleteCategoryFromUI = (e) => {
+
+    const clickedPoint = e.target;
+
+    if(clickedPoint.className === "deleteIcon"){
+
+        const deletingItemName = clickedPoint.name;
+        const parentListItem = clickedPoint.parentElement.parentElement;
+
+        parentListItem.remove();
+        deleteCategoryFromStorage(deletingItemName);
+    }
+}
+
+const deleteCategoryFromStorage = (deletingItemName) => {
+
+    let localDatas = getDatasFromStorage();
+
+    localDatas.forEach((e,index) => {
+        if(e.categoryName === deletingItemName){
+            localDatas.splice(index,1);
+        }
+    });
+
+    loadAllDatas(localDatas);
+}
+
+// Delete All Categories
+const clearAllCategories = () => {
+
+    localStorage.removeItem("category");
+
+    // get updated (empty) data to sync with UI parts //
+    let localDatas = getDatasFromStorage();
+
+    // update the category selection form //
+    displayCategoriesOnForm(localDatas);
+
+    // update the data list above the page  //
+    displayCategoriesOnList(localDatas);
+}
+
 const allEvents = () => {
     
     document.addEventListener("DOMContentLoaded", (() => {
@@ -326,12 +388,14 @@ const allEvents = () => {
         let allStorageDatas = getDatasFromStorage();
 
         displayCategoriesOnForm(allStorageDatas);
-        loadCategoryDatasToInterface(allStorageDatas);
+        displayCategoriesOnList(allStorageDatas);
     }));
     adjusterButton.addEventListener("click", getSelectedTimeData);
     timeSelectorForm.addEventListener("change", transformSelectorforEachMinute);
-    startButton.addEventListener("click",mainTimerMekanism);
-    resetTimerButton.addEventListener("click",resetTheTimer);
-    addCategoryButton.addEventListener("click",createNewCategory);
+    startButton.addEventListener("click", mainTimerMekanism);
+    resetTimerButton.addEventListener("click", resetTheTimer);
+    addCategoryButton.addEventListener("click", createNewCategory);
+    categoryListArea.addEventListener("click", deleteCategoryFromUI);
+    clearAllButton.addEventListener("click", clearAllCategories);
 }
 allEvents();
