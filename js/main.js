@@ -348,26 +348,35 @@ const getDatasFromStorage = () => {
 // Main Object Creator Function //
 const createNewCategory = () => {
 
-    const newCategoryName = addCategoryInput.value;
+    const newCategoryName = addCategoryInput.value.trim();
 
-    let localDatas = getDatasFromStorage();
-
-    // check the new category. Does it already exist or not ?// 
-    const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
-
-    if(categoryExist === undefined){
-
-            const newCategoryObject = new Category(newCategoryName,0,0);
-            localDatas.push(newCategoryObject);
-            loadAllDatas(localDatas);
-            displayInfoMessage("success","Yeni bir kategori ekledin");
+    if (newCategoryName === ""){
+        // invalid category name (no character) //
+        displayInfoMessage("error","Odaklanacağın kategori için geçerli bir ad yazmalısın");
     }
-    else{
-        displayInfoMessage("error", "Bu kategori zaten mevcut !");
+    else {
+        // valid name, keep going to process //
+
+        let localDatas = getDatasFromStorage();
+    
+        // check the new category. Does it already exist or not ?// 
+        const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
+    
+        if(categoryExist === undefined){
+    
+                const newCategoryObject = new Category(newCategoryName,0,0);
+                localDatas.push(newCategoryObject);
+                loadAllDatas(localDatas);
+                displayInfoMessage("success","Yeni bir kategori ekledin");
+        }
+        else{
+            displayInfoMessage("error", "Bu kategori zaten mevcut !");
+        }
+    
+        // clean the input //
+        addCategoryInput.value = "";
     }
 
-    // clean the input //
-    addCategoryInput.value = "";
 }
 
 
