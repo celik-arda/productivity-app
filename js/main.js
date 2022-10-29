@@ -3,6 +3,8 @@ import Category from "./category.js";
 let counterMinute = document.getElementById("counterMinute");
 let counterSecond = document.getElementById("counterSecond");
 
+const timerForm = document.getElementById("timerForm");
+
 const selectedMinute = document.getElementById("selectedMinute");
 const selectedSecond = document.getElementById("selectedSecond");
 
@@ -39,11 +41,10 @@ let transformSelectorforEachMinute = () => {
     // turn single digit numbers into two digits
     // ... SONRA EKLENECEK !!! ... //
 
-    if(selectedSecond.value === "58") {
+    if(selectedSecond.value === "60") {
 
         selectedSecond.value = 0;
         let minuteDisplay = Number(selectedMinute.value) + 1;
-
 
         selectedMinute.value = minuteDisplay.toString();
     }
@@ -146,7 +147,6 @@ const mainTimerMekanism = () => {
     const currentMinute = Number(document.getElementById("counterMinute").textContent);
     const currentSecond = Number(document.getElementById("counterSecond").textContent);
 
-    const selectedCategory = document.getElementById("categoryOptions");
 
     // check the timer : is running or not. //
     
@@ -181,7 +181,6 @@ const countTheTimerDown = () => {
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
-    const selectedCategory = document.getElementById("categoryOptions");
 
     secondNumber --;
     
@@ -201,10 +200,19 @@ const countTheTimerDown = () => {
         calculateAndSaveTimeDatas();
     }
 
-    
-    // turn them into string for textContent
-    counterMinute.textContent = minuteNumber.toString();
-    counterSecond.textContent = secondNumber.toString();
+    // make the numbers 2 digits and turn them into string for textContent
+    if (minuteNumber < 10){
+        counterMinute.textContent = "0" + minuteNumber.toString();
+    }
+    else {
+        counterMinute.textContent = minuteNumber.toString();
+    }
+    if (secondNumber < 10){
+        counterSecond.textContent = "0" + secondNumber.toString();
+    }
+    else {
+        counterSecond.textContent = secondNumber.toString();
+    }
 }
 
 // While timer is running, category cannot change //
