@@ -58,10 +58,32 @@ const getSelectedCategory = () => {
 }
 
 let getSelectedTimeData = () => {
+    // values in the time selector inputs //
+    let minuteValue = selectedMinute.value;
+    let secondValue = selectedSecond.value;
 
     const selectedCategory = getSelectedCategory();
+    
+    if (selectedCategory !== "notSelected"){
 
-    switch(selectedCategory){
+            if(minuteValue != 0 || secondValue != 0){
+
+                    // equalize selected time and counter time //
+                    counterSecond.textContent = secondValue;
+                    counterMinute.textContent = minuteValue;
+
+                    return [minuteValue,secondValue];
+            }
+            else {
+                displayInfoMessage("error","Başlamadan önce odaklanmak istediğin süreyi ayarlamalısın");
+            }
+    }
+    else {
+        displayInfoMessage("error","Başlamadan önce neye odaklanmak istediğini seçmelisin");
+    }
+
+
+/*     switch(selectedCategory){
 
         case "notSelected":
             displayInfoMessage("error","Başlamadan önce neye odaklanmak istediğini seçmelisin");
@@ -80,19 +102,19 @@ let getSelectedTimeData = () => {
             
             // return datas to use in calculateAndSaveDatas(); //
             return [minuteValue,secondValue];
-        }
+        } */
 }
 
 
 const calculateAndSaveTimeDatas = () => {
 
     // how many minute was completed (string) //
-    const [minuteString,secondString] = getSelectedTimeData();
+    let [minuteString,secondString] = getSelectedTimeData();
         
         const completedMinute = Number(minuteString);
         const completedSecond = Number(secondString);
         
-        let localDatas = getDatasFromStorage();
+        const localDatas = getDatasFromStorage();
 
         const selectedCategory = getSelectedCategory();
         
@@ -111,6 +133,8 @@ const calculateAndSaveTimeDatas = () => {
         
         // update the localStorage //
         loadAllDatas(localDatas);
+
+        displayInfoMessage("success","Oturum tamamlandı");
 }
 
 
@@ -173,8 +197,8 @@ const countTheTimerDown = () => {
 
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
-        calculateAndSaveTimeDatas();
         preventChangesOnCategory("makeCategoryEnabled");
+        calculateAndSaveTimeDatas();
     }
 
     
