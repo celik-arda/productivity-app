@@ -9,7 +9,7 @@ section > div {
 
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
-    color: red;
+    color: var(--contentColor);
 }
 
 .main-container-1,
@@ -17,13 +17,42 @@ h1, h2, h3, h4, h5, h6 {
 .main-container-3 {
     border-radius: 16px;
     box-shadow: 4px 8px 40px 5px #2a0000;
+    background-color: var(--sectionBackground);
+}
+
+button,
+input,
+select {
+    border-radius: 6px;
 }
 
 button {
     line-height: 30px;
     padding: 8px 12px;
     font-size: 16px;
-    border-radius: 6px;
+    font-weight: 600;
+    border: 3px solid;
+    transition-property:  background-color,color;
+    transition-duration: 300ms;
+    transition-timing-function: ease-out;
+}
+
+.danger-button {
+    color: var(--errorColor);
+}
+
+.danger-button:hover {
+    background-color: var(--errorColor);
+    color: white;
+}
+
+.success-button {
+    color: var(--contentColor);
+}
+
+.success-button:hover {
+    color: white;
+    background-color: var(--contentColor);
 }
 
 .timer-section .main-container-1 {
@@ -36,7 +65,7 @@ button {
 }
 
 .timer-section .timer-area {
-    color: red;
+    color: var(--contentColor);
     font-size: 6rem;
 }
 
@@ -48,8 +77,8 @@ button {
     width: 9%;
     height: 3rem;
     font-size: 2.6rem;
-    color: red;
-    background-color: grey;
+    color: var(--contentColor);
+    background-color: var(--mainBackground);
     font-weight: 700;
     border-radius: 6px;
     text-align: center;
@@ -86,15 +115,42 @@ section > .main-container-2 {
     text-align: center;
 }
 
+.add-delete-section #categoryLabel {
+    display: inline-block;
+    margin: 0.4rem 30%;
+    color: var(--contentColor);
+    font-size: 20px;
+    font-weight: 600;
+    /* padding: 1.5rem 30%; */
+}
+
+
+    
 .add-delete-section #addCategoryInput {
-    height: 36px;
-    background-color: grey;
+    height: 40px;
+    background-color: var(--mainBackground);
+    font-size: 18px;
+    border-color: var(--contentColor);
 }
 
 .list-section .main-container-3 {
     width: 90%;
     height: fit-content;
     margin: 0 auto 1.5rem;
+}
+
+.list-section h2 {
+    padding: 0 5.2rem;
+    display: grid;
+    font-size: 1.8em;
+    text-align: left;
+    grid-template-columns: 12fr 12fr 12fr;
+    column-gap: 3.6rem;
+}
+
+.list-delete-title {
+    text-align: right;
+    padding-right: 1.2rem;
 }
 
 .list-section .list-area {
@@ -107,8 +163,8 @@ section > .main-container-2 {
     display: grid;
     grid-template-columns: 7fr 6fr 1fr;
     column-gap: 1rem;
-    font-size: 2rem;
-    color: red;
+    font-size: 1.8em;
+    color: var(--contentColor);
 }
 
 .list-section .list-category-icon {
@@ -117,11 +173,6 @@ section > .main-container-2 {
 
 .list-section img {
     width: 2.6rem;
-    background-color: darkred;
-    border-radius: 9px;
+    background-color: var(--errorColor);
+    border-radius: 6px;
 }
-
-
-/* .list-section .category-list-item span {
-
-} */

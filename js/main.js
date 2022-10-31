@@ -323,7 +323,7 @@ const displayInfoMessage = (infoType,message) => {
     // Delete message automatically after 1.5 sec //
     setTimeout(() => {
         messageElement.remove();
-    }, 2500);
+    }, 3000);
 
 }
 
