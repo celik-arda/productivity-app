@@ -298,6 +298,7 @@ const loadAllDatas = (localDatas) => {
 const displayInfoMessage = (infoType,message) => {
 
     const messageLocation = document.getElementsByClassName("info-message-area")[0];
+    messageLocation.style.display = "block";
 
     let messageElement = document.createElement("div");
 
@@ -305,25 +306,25 @@ const displayInfoMessage = (infoType,message) => {
     messageElement.textContent = message;
     messageElement.style.boxSizing = "border-box";
     messageElement.style.borderStyle = "solid";
-    messageElement.style.borderWidth = "4px";
+    messageElement.style.borderWidth = "6px";
     messageElement.style.borderRadius = "6px";
+    messageElement.style.borderColor = "white";
+    messageElement.style.color = "white";
     
     messageLocation.appendChild(messageElement);
-    
     // Select the color in terms of type : error or success //
     if(infoType === "error"){
-        messageElement.style.color = "darkred";
-        messageElement.style.background = "#FFEA4C";
+        messageElement.style.background = "var(--errorColor)";
     }
     else if(infoType === "success"){
-        messageElement.style.color = "green";
         messageElement.style.background = "yellowgreen";
     }
 
     // Delete message automatically after 1.5 sec //
     setTimeout(() => {
+        messageLocation.style.display = "none";
         messageElement.remove();
-    }, 3000);
+    }, 3700);
 
 }
 
