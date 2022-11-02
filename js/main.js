@@ -272,13 +272,7 @@ const displayCategoriesOnList = (localDatas) => {
     let categoryListItems = "";
 
     localDatas.forEach(e => {
-        categoryListItems +=`<li class="category-list-item">
-        <span class="list-category-name">${e.categoryName}</span>
-        <span class="list-category-time">${e.totalMinute}</span>
-        <span class="list-category-icon">
-        <img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}">
-        </span>
-        </li>`;
+        categoryListItems += `<li class="category-list-item"><div class="list-category-name">${e.categoryName}</div><div class="list-category-time"><span class="list-minute">${e.totalMinute}</span><span>:</span><span class="list-second">${e.totalSecond}</span></div><div class="list-category-icon"><img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}"></div></li>`;
     });
 
     listArea.innerHTML = categoryListItems;

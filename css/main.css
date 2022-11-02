@@ -175,10 +175,78 @@ section > .main-container-2 {
 .list-section .main-container-3 {
     width: 90%;
     height: fit-content;
-    margin: 0 auto 1.5rem;
+    padding-bottom: 2rem;
+    margin: 0 auto;
 }
 
-.list-section h2 {
+.list-section .list-title {
+    background-color: #AC71D4;
+    height: 54px;
+    margin-block: 0;
+    padding: 0 60px;
+    border-radius: 16px 16px 0 0;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 31% 31% 30%;
+    column-gap: 4%;
+}
+
+.list-section .name-title {
+    text-align: left;
+}
+
+.list-section .time-title {
+    text-align: center;
+}
+
+.list-section .icon-title {
+    text-align: right;
+}
+
+.list-section .list-title > div {
+    outline: 3px solid red;
+    padding-top: 10px;
+}
+
+.list-section .list-area {
+    list-style-type: none;
+    outline: 3px dotted black;
+}
+
+.list-section .list-area li {
+    outline: 3px dashed purple;
+    height: 54px;
+    padding: 0 70px 0 60px;
+    display: grid;
+    grid-template-columns: 31% 31% 30%;
+    font-size: 1.4rem;
+    column-gap: 4%;
+    overflow: hidden;
+}
+
+.list-section .list-area li:nth-child(2n+1) {
+    background-color: #9EC9D7;
+}
+
+.list-section .list-category-time {
+    text-align: center;
+    letter-spacing: 7px;
+}
+
+.list-section .list-category-icon {
+    text-align: right;
+}
+
+.list-section .deleteIcon {
+    width: 2rem;
+}
+
+.list-section .list-area li > div {
+    outline: 3px solid red;
+    padding: 8px 0;
+}
+
+/* .list-section h2 {
     padding: 0 5.2rem;
     display: grid;
     font-size: 1.8em;
@@ -193,7 +261,6 @@ section > .main-container-2 {
 }
 
 .list-section .list-area {
-    /* margin: auto; */
     padding: 0 7rem;
 }
 
@@ -214,4 +281,4 @@ section > .main-container-2 {
     width: 2.6rem;
     background-color: var(--errorColor);
     border-radius: 6px;
-}
+} */
