@@ -380,6 +380,49 @@ section > .main-container-2 {
         padding: 0 4px;
     }
 
+    .timer-section .info-message-area {
+        display: none;
+        position: absolute;
+        border-radius: 14px;
+        width: 76%;
+        height: 130px;
+        margin: 10px 7%;
+        top: 260px;
+    }
+    
+    /* Animation to display info-messages */
+    /* These codes refer to JS "displayInfoMessage()" function. */
+    @keyframes info-message-animation {
+        7%{
+            height: 32px;
+            font-size: 0.6rem;
+            padding-top: 0.4rem;
+        }
+        17%{
+            height: 110px;
+            padding-top: 1rem;
+        }
+        21%{
+            height: 110px;
+            font-size: 1.3rem;
+            padding-top: 1rem;
+        }
+        100%{
+            height: 110px;
+            font-size: 1.3rem;
+            padding-top: 1rem;
+        }
+    }
+    
+    .timer-section #info-message {
+        /* width: ; */
+        height: 44px;
+        border-radius: 14px !important;
+        animation-name: info-message-animation;
+        animation-duration: 5s;
+        animation-iteration-count: 1;
+    }
+
     section > .main-container-2 {
         height: 145px;
         margin: 0 auto 1.5rem;
