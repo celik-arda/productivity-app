@@ -3,6 +3,8 @@ import Category from "./category.js";
 let counterMinute = document.getElementById("counterMinute");
 let counterSecond = document.getElementById("counterSecond");
 
+const timerForm = document.getElementById("timerForm");
+
 const selectedMinute = document.getElementById("selectedMinute");
 const selectedSecond = document.getElementById("selectedSecond");
 
@@ -39,11 +41,10 @@ let transformSelectorforEachMinute = () => {
     // turn single digit numbers into two digits
     // ... SONRA EKLENECEK !!! ... //
 
-    if(selectedSecond.value === "58") {
+    if(selectedSecond.value === "60") {
 
         selectedSecond.value = 0;
         let minuteDisplay = Number(selectedMinute.value) + 1;
-
 
         selectedMinute.value = minuteDisplay.toString();
     }
@@ -58,10 +59,32 @@ const getSelectedCategory = () => {
 }
 
 let getSelectedTimeData = () => {
+    // values in the time selector inputs //
+    let minuteValue = selectedMinute.value;
+    let secondValue = selectedSecond.value;
 
     const selectedCategory = getSelectedCategory();
+    
+    if (selectedCategory !== "notSelected"){
 
-    switch(selectedCategory){
+            if(minuteValue != 0 || secondValue != 0){
+
+                    // equalize selected time and counter time //
+                    counterSecond.textContent = secondValue;
+                    counterMinute.textContent = minuteValue;
+
+                    return [minuteValue,secondValue];
+            }
+            else {
+                displayInfoMessage("error","Başlamadan önce odaklanmak istediğin süreyi ayarlamalısın");
+            }
+    }
+    else {
+        displayInfoMessage("error","Başlamadan önce neye odaklanmak istediğini seçmelisin");
+    }
+
+
+/*     switch(selectedCategory){
 
         case "notSelected":
             displayInfoMessage("error","Başlamadan önce neye odaklanmak istediğini seçmelisin");
@@ -80,19 +103,19 @@ let getSelectedTimeData = () => {
             
             // return datas to use in calculateAndSaveDatas(); //
             return [minuteValue,secondValue];
-        }
+        } */
 }
 
 
 const calculateAndSaveTimeDatas = () => {
 
     // how many minute was completed (string) //
-    const [minuteString,secondString] = getSelectedTimeData();
+    let [minuteString,secondString] = getSelectedTimeData();
         
         const completedMinute = Number(minuteString);
         const completedSecond = Number(secondString);
         
-        let localDatas = getDatasFromStorage();
+        const localDatas = getDatasFromStorage();
 
         const selectedCategory = getSelectedCategory();
         
@@ -111,6 +134,8 @@ const calculateAndSaveTimeDatas = () => {
         
         // update the localStorage //
         loadAllDatas(localDatas);
+
+        displayInfoMessage("success","Oturum tamamlandı");
 }
 
 
@@ -122,7 +147,6 @@ const mainTimerMekanism = () => {
     const currentMinute = Number(document.getElementById("counterMinute").textContent);
     const currentSecond = Number(document.getElementById("counterSecond").textContent);
 
-    const selectedCategory = document.getElementById("categoryOptions");
 
     // check the timer : is running or not. //
     
@@ -157,7 +181,6 @@ const countTheTimerDown = () => {
     let minuteNumber = Number(counterMinute.textContent);
     let secondNumber = Number(counterSecond.textContent);
 
-    const selectedCategory = document.getElementById("categoryOptions");
 
     secondNumber --;
     
@@ -173,14 +196,23 @@ const countTheTimerDown = () => {
 
         clearInterval(countDownInterval);
         timerIsRunningNow = false;
-        calculateAndSaveTimeDatas();
         preventChangesOnCategory("makeCategoryEnabled");
+        calculateAndSaveTimeDatas();
     }
 
-    
-    // turn them into string for textContent
-    counterMinute.textContent = minuteNumber.toString();
-    counterSecond.textContent = secondNumber.toString();
+    // make the numbers 2 digits and turn them into string for textContent
+    if (minuteNumber < 10){
+        counterMinute.textContent = "0" + minuteNumber.toString();
+    }
+    else {
+        counterMinute.textContent = minuteNumber.toString();
+    }
+    if (secondNumber < 10){
+        counterSecond.textContent = "0" + secondNumber.toString();
+    }
+    else {
+        counterSecond.textContent = secondNumber.toString();
+    }
 }
 
 // While timer is running, category cannot change //
@@ -240,13 +272,7 @@ const displayCategoriesOnList = (localDatas) => {
     let categoryListItems = "";
 
     localDatas.forEach(e => {
-        categoryListItems +=`<li class="category-list-item">
-        <span class="list-category-name">${e.categoryName}</span>
-        <span class="list-category-time">${e.totalMinute}</span>
-        <span class="list-category-icon">
-        <img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}">
-        </span>
-        </li>`;
+        categoryListItems += `<li class="category-list-item"><div class="list-category-name">${e.categoryName}</div><div class="list-category-time"><span class="list-minute">${e.totalMinute}</span><span>:</span><span class="list-second">${e.totalSecond}</span></div><div class="list-category-icon"><img class="deleteIcon" src="./assets/delete_icon_02_google_.svg" alt="delete_icon" name="${e.categoryName}"></div></li>`;
     });
 
     listArea.innerHTML = categoryListItems;
@@ -266,6 +292,7 @@ const loadAllDatas = (localDatas) => {
 const displayInfoMessage = (infoType,message) => {
 
     const messageLocation = document.getElementsByClassName("info-message-area")[0];
+    messageLocation.style.display = "block";
 
     let messageElement = document.createElement("div");
 
@@ -273,25 +300,25 @@ const displayInfoMessage = (infoType,message) => {
     messageElement.textContent = message;
     messageElement.style.boxSizing = "border-box";
     messageElement.style.borderStyle = "solid";
-    messageElement.style.borderWidth = "4px";
+    messageElement.style.borderWidth = "6px";
     messageElement.style.borderRadius = "6px";
+    messageElement.style.borderColor = "white";
+    messageElement.style.color = "white";
     
     messageLocation.appendChild(messageElement);
-    
     // Select the color in terms of type : error or success //
     if(infoType === "error"){
-        messageElement.style.color = "darkred";
-        messageElement.style.background = "#FFEA4C";
+        messageElement.style.background = "var(--errorColor)";
     }
     else if(infoType === "success"){
-        messageElement.style.color = "green";
         messageElement.style.background = "yellowgreen";
     }
 
     // Delete message automatically after 1.5 sec //
     setTimeout(() => {
+        messageLocation.style.display = "none";
         messageElement.remove();
-    }, 2500);
+    }, 3700);
 
 }
 
@@ -316,26 +343,35 @@ const getDatasFromStorage = () => {
 // Main Object Creator Function //
 const createNewCategory = () => {
 
-    const newCategoryName = addCategoryInput.value;
+    const newCategoryName = addCategoryInput.value.trim();
 
-    let localDatas = getDatasFromStorage();
-
-    // check the new category. Does it already exist or not ?// 
-    const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
-
-    if(categoryExist === undefined){
-
-            const newCategoryObject = new Category(newCategoryName,0,0);
-            localDatas.push(newCategoryObject);
-            loadAllDatas(localDatas);
-            displayInfoMessage("success","Yeni bir kategori ekledin");
+    if (newCategoryName === ""){
+        // invalid category name (no character) //
+        displayInfoMessage("error","Odaklanacağın kategori için geçerli bir ad yazmalısın");
     }
-    else{
-        displayInfoMessage("error", "Bu kategori zaten mevcut !");
+    else {
+        // valid name, keep going to process //
+
+        let localDatas = getDatasFromStorage();
+    
+        // check the new category. Does it already exist or not ?// 
+        const categoryExist = localDatas.find(e => e.categoryName === newCategoryName);
+    
+        if(categoryExist === undefined){
+    
+                const newCategoryObject = new Category(newCategoryName,0,0);
+                localDatas.push(newCategoryObject);
+                loadAllDatas(localDatas);
+                displayInfoMessage("success","Yeni bir kategori ekledin");
+        }
+        else{
+            displayInfoMessage("error", "Bu kategori zaten mevcut !");
+        }
+    
+        // clean the input //
+        addCategoryInput.value = "";
     }
 
-    // clean the input //
-    addCategoryInput.value = "";
 }
 
 
