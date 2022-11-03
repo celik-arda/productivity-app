@@ -1,11 +1,5 @@
 @import url("./default.css");
 
-/* Default ayarlar (sonra düzenlenecek) */
-
-/* section > div {
-    border: 4px dotted darkred;
-} */
-/* (end)  Default ayarlar (sonra düzenlenecek) */
 
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
@@ -212,17 +206,14 @@ section > .main-container-2 {
 }
 
 .list-section .list-title > div {
-    outline: 3px solid red;
     padding-top: 10px;
 }
 
 .list-section .list-area {
     list-style-type: none;
-    outline: 3px dotted black;
 }
 
 .list-section .list-area li {
-    outline: 3px dashed purple;
     height: 54px;
     padding: 0 70px 0 60px;
     display: grid;
@@ -252,7 +243,6 @@ section > .main-container-2 {
 }
 
 .list-section .list-area li > div {
-    outline: 3px solid red;
     padding: 8px 0;
 }
 
@@ -275,7 +265,6 @@ section > .main-container-2 {
         width: 45%;
         padding: 0.2rem 1rem;
         overflow: hidden;
-        outline: 2px dashed red;
     }
 
     .timer-section select {
@@ -306,13 +295,6 @@ section > .main-container-2 {
 
 /*  For Smartphones */
 @media screen and (min-width: 0px) and (max-width: 620px) {
-
-    /* ---- TEST OUTLINES  ---- */
-    .main-container-1 > div,
-    .main-container-2 > div,
-    .main-container-3 > div {
-        outline: 3px dotted red;
-    }
 
     button {
         line-height: 24px;
@@ -462,7 +444,6 @@ section > .main-container-2 {
     }
 
     .list-section .list-area li {
-        outline: 3px dashed purple;
         height: 48px;
         padding: 0 30px 0 30px;
         display: grid;
