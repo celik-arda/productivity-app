@@ -55,6 +55,7 @@ button {
     background-color: var(--contentColor);
 }
 
+/* SECTION-1  (TIMER AND ADJUSTING ITEMS) */
 .timer-section .main-container-1 {
     width: 90%;
     height: 364px;
@@ -71,7 +72,9 @@ button {
 
 .timer-section .start-button-area {
     margin-bottom: 1.8rem;
+    margin: 0 auto;
 }
+
 
 .timer-section .time-selector-input {
     width: 9%;
@@ -107,13 +110,6 @@ button {
 .timer-section .adjust-reset-buttons {
     margin: auto;
     width: 50%;
-}
-
-section > .main-container-2 {
-    width: 90%;
-    height: 120px;
-    margin: 0 auto 1.5rem;
-    text-align: center;
 }
 
 .timer-section .info-message-area {
@@ -157,6 +153,16 @@ section > .main-container-2 {
     animation-duration: 5s;
     animation-iteration-count: 1;
 }
+
+
+/* SECTION-2  (CREATE NEW CATEGORY) */
+section > .main-container-2 {
+    width: 90%;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+}
+
 
 .add-delete-section #categoryLabel {
     display: inline-block;
@@ -229,7 +235,7 @@ section > .main-container-2 {
 }
 
 .list-section .list-area li:nth-child(2n+1) {
-    background-color: #9EC9D7;
+    background-color: #D4E7ED;
 }
 
 .list-section .list-category-time {
@@ -301,5 +307,130 @@ section > .main-container-2 {
 /*  For Smartphones */
 @media screen and (min-width: 0px) and (max-width: 620px) {
 
+    /* ---- TEST OUTLINES  ---- */
+    .main-container-1 > div,
+    .main-container-2 > div,
+    .main-container-3 > div {
+        outline: 3px dotted red;
+    }
+
+    button {
+        line-height: 24px;
+        font-size: 15px;
+        padding: 8px 18px;
+        transition-property:  background-color,color;
+        transition-duration: 300ms;
+        transition-timing-function: ease-out;
+    }
+
+    .danger-button {
+        color: var(--errorColor);
+    }
+    .danger-button:active {
+        background-color: var(--errorColor);
+        color: white;
+    }
+
+    .success-button {
+        color: var(--contentColor);
+    }
     
+    .success-button:active {
+        color: white;
+        background-color: var(--contentColor);
+    }
+
+    .timer-section .main-container-1 {
+        height: 330px;
+        display: grid;
+        text-align: center;
+        grid-template-rows: 100px 80px 50px 40px 45px auto;
+    }
+
+    .timer-section .timer-area {
+        font-size: 5rem;
+    }
+
+    .timer-section .start-button-area {
+        margin-bottom: 1.5rem;
+    }
+
+    .timer-section .time-selector-input {
+        width: 14%;
+        font-size: 1.8rem;
+        height: 2.4rem;
+    }
+
+    .timer-section .category-selector-area {
+        width: 72%;
+        padding: 1px 2px;
+        line-height: 24px;
+        margin: auto;
+    }
+
+    .timer-section select {
+        height: 32px;
+        font-size: 15px;
+        width: 206px;
+    }
+
+    .timer-section .adjust-reset-buttons {
+        width: 70%;
+        margin: auto;
+        padding: 0 4px;
+    }
+
+    section > .main-container-2 {
+        height: 145px;
+        margin: 0 auto 1.5rem;
+        text-align: center;
+    }
+
+    .add-delete-section #categoryLabel {
+        margin: 0.4rem 20%;
+    }
+
+    .add-delete-section #addCategoryInput {
+        height: 35px;
+        width: 190px;
+        margin: 0 25% 0.4rem 25%;
+    }
+
+    .list-section .list-title {
+        height: 48px;
+        font-size: 1.1rem;
+        padding: 0 30px;
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-columns: 45% 31% 16%;
+        column-gap: 4%;
+    }
+
+    .list-section .name-title {
+        text-align: left;
+    }
+    
+    .list-section .time-title {
+        text-align: left;
+    }
+    
+    .list-section .icon-title {
+        text-align: right;
+    }
+
+    .list-section .list-area li {
+        outline: 3px dashed purple;
+        height: 48px;
+        padding: 0 30px 0 30px;
+        display: grid;
+        grid-template-columns: 45% 31% 16%;
+        font-size: 1.1rem;
+        color: var(--contentColor);
+        column-gap: 4%;
+        overflow: hidden;
+    }
+
+    .list-section .list-area li > div {
+        padding: 11px 0;
+    }
 }
